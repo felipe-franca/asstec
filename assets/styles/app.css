@@ -1,3 +1,9 @@
+@import '~bootstrap';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~@fontsource/roboto-condensed';
+
 body {
-    background-color: lightgray;
+    background-color: #f6f6f6 !important;
+    margin: 0;
+    padding: 0;
 }
