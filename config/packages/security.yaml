@@ -8,22 +8,45 @@ security:
         App\Entity\ClientUser:
             algorithm: auto
 
-
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
+                class: App\Entity\User
+                property: email
+        app_client_user_provider:
+            entity:
                 class: App\Entity\ClientUser
                 property: email
-        # used to reload user from session & other features (e.g. switch_user)
+        users_in_memory: { memory: null }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        client_login:
+            lazy: true
+            pattern: ^/client
+            provider: app_client_user_provider
+            form_login:
+                login_path: app_client_login
+                check_path: app_client_login
+                enable_csrf: true
+
         main:
             lazy: true
+            pattern: ^/
             provider: app_user_provider
+            form_login:
+                login_path: login
+                check_path: login
+                enable_csrf: true
+
+        # main:
+        #     pattern: ^/
+        #     provider: app_user_provider
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -31,11 +54,16 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    role_hierarchy:
+        ROLE_ADMIN:       [ROLE_USER, ROLE_ANALIST]
+        ROLE_USER:        ROLE_USER
+        ROLE_ANALIST:     ROLE_ANALIST
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/home, roles: ROLE_ADMIN }
+        - { path: ^/client/home, roles: ROLE_USER }
 
 when@test:
     security:

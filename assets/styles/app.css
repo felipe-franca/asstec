@@ -6,4 +6,119 @@ body {
     background-color: #f6f6f6 !important;
     margin: 0;
     padding: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all .3s;
+}
+
+a:hover {
+    cursor: pointer;
+    letter-spacing: 1.05px
+}
+
+input {
+    outline: none;
+    border: solid 1px #c6c6c6;
+}
+
+.login-container {
+    background-image: url('../../public/images/login-page-background-image.png');
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-base {
+    background-color: #f3f3f3;
+}
+
+.bg-blue {
+    background-color: #41ADDB;
+}
+
+.bg-grenn {
+    background-color: #32b953;
+}
+
+.bg-red {
+    background-color: #e66454;
+}
+
+.bg-yellow {
+    background-color: #f4ab43;
+}
+
+.font-white {
+    color: #fff;
+}
+
+.form {
+    padding: 30px;
+}
+
+.form > form {
+    display: flex;
+    flex-direction: column;
+}
+
+#auth_save {
+    margin-top: 10px;
+}
+
+#auth > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-container .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    width: 30vw;
+}
+
+.login-container .container-sm  .form-control {
+    border: none;
+}
+
+.app-infos {
+    width: 100%;
+    padding: 30px;
+    text-align: left;
+}
+
+.app-infos > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: columns;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-small {
+    color: #666;
+}
+
+.alert {
+    position: inherit;
+    top: 10px;
+    width: inherit;
 }

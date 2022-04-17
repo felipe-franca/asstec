@@ -3971,6 +3971,11 @@ signal-exit@^3.0.3:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
+slide-element@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/slide-element/-/slide-element-2.2.6.tgz#e25161539784ff8a7af7cfd35224b2fcabff4373"
+  integrity sha512-Ie2dcuocgg5ImSZ1dbxVW7OSJMeLaxuJhByV2HhcWpfLj+BllmY3XLFrDXNQMpKy4vK/Waq4otj4+qj/dXo2ow==
+
 sockjs@^0.3.21:
   version "0.3.24"
   resolved "https://registry.yarnpkg.com/sockjs/-/sockjs-0.3.24.tgz#c9bc8995f33a111bea0395ec30aa3206bdb5ccce"

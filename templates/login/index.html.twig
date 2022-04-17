@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid login-container">
+		<div class="container">
+			<div class='container bg-base shadow'>
+				<div class='app-infos font-white bg-blue'>
+					<div>
+						<i class="fa-solid fa-computer" style='font-size: 2rem'></i>
+						<h3>Help Tech</h3>
+					</div>
+					<br>
+					<div>
+						<i class="fa-solid fa-timeline"></i>
+						<small>Distributed Support</small>
+					</div>
+					<br>
+					<div>
+						<i class="fa-solid fa-chart-simple"></i>
+						<small>General Reports</small>
+					</div>
+					<br>
+					<div>
+						<i class="fa-solid fa-file-waveform"></i>
+						<small>Dynamic Statuses</small>
+					</div>
+				</div>
+				<div class='form form-control'>
+					<h3>{% if isClient %}
+							<i class="fa-solid fa-user"></i> Client
+						{% else %}
+							<i class="fa-solid fa-user-lock"></i> Admin
+						{% endif %} Portal</h3>
+					<h4>Sign In your Account</h4>
+					<br>
+					<form action="{{ path( isClient ? 'app_client_login' : 'login') }}" method='POST'>
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						<input type="hidden" name="_target_path" value={{ isClient ? '/client/home' : 'home' }}/>
+						<small class='login-small'>
+							<label for="_username">Email</label>
+						</small>
+						<input type="text" name='_username' id='username' class='form-control-sm' value={{ last_username }}>
+
+						<small class='login-small'>
+							<label for="_password">Password</label>
+						</small>
+						<input type="password" name='_password' id='password' class='form-control-sm'>
+						<br>
+						<button type="submit" class='btn btn-sm bg-blue font-white'>Sign In</button>
+					</form>
+					<small class='login-small'>
+						<a href="#">Forgot your password ?</a>
+					</small>
+					{% include "flash_messages.html.twig" %}
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
