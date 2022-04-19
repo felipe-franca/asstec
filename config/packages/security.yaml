@@ -63,6 +63,11 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/home, roles: ROLE_ADMIN }
+        - { path: ^/waiting, roles: ROLE_ADMIN }
+        - { path: ^/clients, roles: ROLE_ADMIN }
+        - { path: ^/techcnical, roles: ROLE_ADMIN }
+        - { path: ^/opened, roles: ROLE_ANALIST }
+        - { path: ^/closed, roles: ROLE_ANALIST }
         - { path: ^/client/home, roles: ROLE_USER }
 
 when@test:

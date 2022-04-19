@@ -38,7 +38,7 @@
 					<br>
 					<form action="{{ path( isClient ? 'app_client_login' : 'login') }}" method='POST'>
 						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-						<input type="hidden" name="_target_path" value={{ isClient ? '/client/home' : 'home' }}/>
+						<input type="hidden" name="_target_path" value={{ isClient ? path('client_login') : path('app_home') }}/>
 						<small class='login-small'>
 							<label for="_username">Email</label>
 						</small>

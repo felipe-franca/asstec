@@ -19,7 +19,31 @@ a {
     transition: all .3s;
 }
 
-a:hover {
+#main-menu {
+    margin: 0;
+    padding: 0;
+    max-width: 25vh;
+}
+
+#main-menu ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+#main-menu ul > li {
+    padding: 5px 10px;
+}
+
+.active {
+    background-color: #181B1F;
+}
+
+ul {
+    list-style-type: none;
+}
+
+form a:hover {
     cursor: pointer;
     letter-spacing: 1.05px
 }
