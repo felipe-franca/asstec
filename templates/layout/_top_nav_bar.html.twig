@@ -1,0 +1,21 @@
+<ul id='main-navbar' class="nav shadow">
+	<li class="nav-item">
+		<a class="nav-link" aria-current="page" href="{{ item.children.user.uri }}">
+            <span>inventar um logo</span>
+        </a>
+	</li>
+	<li class="nav-item border dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+            <i class="fa fa-icon ~ {{item.children.user.extras.icon}}"></i> {{ item.children.user.extras.label }}
+        </a>
+        <ul class="dropdown-menu shadow">
+            <li>
+                <a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket"></i>&nbsp&nbsp Log Out</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <a class="dropdown-item" href="#"><i class="fa-solid fa-address-card"></i>&nbsp&nbsp Perfil</a>
+            </li>
+        </ul>
+	</li>
+</ul>

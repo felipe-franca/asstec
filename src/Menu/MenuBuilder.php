@@ -59,4 +59,18 @@ class MenuBuilder
 
         return $menu;
     }
+
+    public function createTopNavBar(array $options): ItemInterface
+    {
+        $navbar = $this->factory->createItem('nav');
+
+        $navbar->addChild('user', [
+            'route' => 'app_home',
+            'extras' => [
+                'icon' => 'fa-circle-user',
+                'label' => 'Ola, ' . $this->context->getUser()->getUsername(),]
+        ]);
+
+        return $navbar;
+    }
 }

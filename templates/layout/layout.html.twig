@@ -1,18 +1,24 @@
 {% extends "base.html.twig" %}
 {% block body %}
-    <div class='container-fluid'>
-        <div class='row flex-nowrap'>
-            <div id='main-menu' class="col-xl-2 bg-dark">
-                <div class="d-flex flex-column align-items-center align-items-sm-start pt-1 text-white min-vh-100">
-                    {% block main_menu %}
-                        {{ knp_menu_render('main', {'template': 'menu.html.twig', 'currentClass': 'active'}) }}
-                    {% endblock %}
-                </div>
-            </div>
-            <div class='col py-3'>
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-    </div>
-
+	{{ knp_menu_render('navbar', {'template': 'layout/_top_nav_bar.html.twig'}) }}
+	<div class='container-fluid'>
+		<div class='row flex-nowrap'>
+			<div id='main-menu' class="col-xl-2 bg-dark">
+				<div class="d-flex flex-column align-items-center align-items-sm-start pt-1 text-white min-vh-100">
+					{% block main_menu %}
+						{{ knp_menu_render('main', {'template': 'menu.html.twig', 'currentClass': 'active'}) }}
+					{% endblock %}
+				</div>
+			</div>
+			<div class='col py-3'>
+				<h2>
+					{% block page_title %}{% endblock %}
+				</h2>
+				<hr>
+				<div class='container-fluid shadow'>
+					{% block content %}{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

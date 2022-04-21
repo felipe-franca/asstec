@@ -11,4 +11,7 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
+// my customs js
+import './custom';
+
 console.log('Hi! My name is app.js');

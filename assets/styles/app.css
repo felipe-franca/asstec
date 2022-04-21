@@ -9,7 +9,8 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
-body, html {
+body,
+html {
     height: 100%;
 }
 
@@ -22,7 +23,7 @@ a {
 #main-menu {
     margin: 0;
     padding: 0;
-    max-width: 25vh;
+    max-width: 230px;
 }
 
 #main-menu ul {
@@ -31,7 +32,7 @@ a {
     width: 100%;
 }
 
-#main-menu ul > li {
+#main-menu ul>li {
     padding: 5px 10px;
 }
 
@@ -85,11 +86,15 @@ input {
     color: #fff;
 }
 
+.font-dark {
+    color: #666;
+}
+
 .form {
     padding: 30px;
 }
 
-.form > form {
+.form>form {
     display: flex;
     flex-direction: column;
 }
@@ -98,7 +103,7 @@ input {
     margin-top: 10px;
 }
 
-#auth > div {
+#auth>div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -113,7 +118,7 @@ input {
     width: 30vw;
 }
 
-.login-container .container-sm  .form-control {
+.login-container .container-sm .form-control {
     border: none;
 }
 
@@ -123,7 +128,7 @@ input {
     text-align: left;
 }
 
-.app-infos > div {
+.app-infos>div {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -145,4 +150,10 @@ input {
     position: inherit;
     top: 10px;
     width: inherit;
+}
+
+#main-navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

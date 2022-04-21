@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use Doctrine\Migrations\Version\State;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Entity\Tickets;
 class AppController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
@@ -22,10 +24,13 @@ class AppController extends AbstractController
     }
 
     #[Route('/opened', name: 'app_opened')]
-    public function opend(Request $request): Response
+    public function opened(Request $request, ManagerRegistry $doctrine): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        $em = $doctrine->getManager();
+        $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_OPENED);
+
+        return $this->render('opened/index.html.twig', [
+            'tickets' => $tickets,
         ]);
     }
 
@@ -42,7 +47,7 @@ class AppController extends AbstractController
         return new JsonResponse(['ok' => true]);
     }
 
-    #[Route('/clients', name: 'app_clients')]
+    #[Route('/admin/clients', name: 'app_clients')]
     #[IsGranted('ROLE_ADMIN')]
     public function clients(Request $request): Response
     {

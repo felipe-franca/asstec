@@ -18,16 +18,16 @@ class Tickets
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $ticketNumber;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $closedAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -55,6 +55,14 @@ class Tickets
     #[ORM\Column(type: 'string', length: 30)]
     private $status;
 
+    public function __construct()
+    {
+        $now = new \DateTime('now');
+        $this->setTicketNumber(date('YmdHis'));
+        $this->setCreatedAt($now);
+        $this->setStatus(self::STATUS_OPENED);
+    }
+
 
     public static $statuses = [
         self::STATUS_ACTING => 'Analista Atuando',
@@ -67,24 +75,24 @@ class Tickets
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
