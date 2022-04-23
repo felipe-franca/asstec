@@ -1,0 +1,65 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block page_title %}
+    {% if label == 'client' %}
+        <i class="fa-solid fa-users"></i>
+        Clientes
+    {% else %}
+        <i class="fa-solid fa-users-gear"></i>
+        Técnicos
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+	<div class='container-fluid totalizer shadow bg-full-white rounded-3'>
+			<p>1</p>
+			<p>Total</p>
+	</div>
+    <br>
+	<div class='container-fluid'>
+		<div class='row justify-content-end'>
+			<div class='col-4'>
+				<a href="#" class='btn btn-sm bg-green font-white'>
+					<i class="fa-solid fa-user-plus"></i>&nbsp&nbsp Novo {{ label }}
+				</a>
+				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
+					<i class="fa-solid fa-chart-simple"></i>&nbsp&nbsp Exportar Relatório
+				</a>
+			</div>
+		</div>
+	</div>
+    <br>
+	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="">Número</th>
+					<th scope="col">Nome</th>
+					<th scope="col">email</th>
+					<th scope="col">Endereço</th>
+					<th scope="col">Telefone</th>
+					<th scope="col">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entity in userEntity %}
+					<tr>
+						<td>{{ entity.getId }}</td>
+						<td>{{ entity.getUserName }}</td>
+						<td>{{ entity.getEmail }}</td>
+						<td>{{ entity.getAddress.__toString }}</td>
+						<td>{{ entity.getPhonesListString }}</td>
+						<td>
+							<a class='btn btn-sm bg-red font-white'>
+								<i class='fa-solid fa-trash-can'></i>&nbsp&nbsp Excluir
+							</a>
+							<a class='btn btn-sm bg-blue font-white'>
+								<i class="fa-solid fa-pen-to-square"></i>&nbsp&nbsp Editar
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock content %}

@@ -55,9 +55,9 @@ security:
             # switch_user: true
 
     role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_ANALIST]
+        ROLE_ADMIN:       [ROLE_USER, ROLE_ANALYST]
         ROLE_USER:        ROLE_USER
-        ROLE_ANALIST:     ROLE_ANALIST
+        ROLE_ANALYST:     ROLE_ANALYST
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -66,8 +66,8 @@ security:
         - { path: ^/waiting, roles: ROLE_ADMIN }
         - { path: ^/clients, roles: ROLE_ADMIN }
         - { path: ^/techcnical, roles: ROLE_ADMIN }
-        - { path: ^/opened, roles: ROLE_ANALIST }
-        - { path: ^/closed, roles: ROLE_ANALIST }
+        - { path: ^/opened, roles: ROLE_ANALYST }
+        - { path: ^/closed, roles: ROLE_ANALYST }
         - { path: ^/client/home, roles: ROLE_USER }
 
 when@test:

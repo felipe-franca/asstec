@@ -29,10 +29,10 @@ class ClientUser implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 40)]
     private $username;
 
-    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private $address;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: UserPhone::class)]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: UserPhone::class, fetch: "EAGER")]
     private $userPhones;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Tickets::class)]
@@ -196,5 +196,12 @@ class ClientUser implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getPhonesListString()
+    {
+        return implode(' - ' , $this->userPhones->map(function (UserPhone $phone) {
+            return $phone->getPhone()->getNumber();
+        })->toArray());
     }
 }

@@ -12,6 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    const TECH_OCCUPATION  = 'technician';
+    const ADMIN_OCCUPATION = 'adimin';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -29,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 40)]
     private $username;
 
-    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private $address;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserPhone::class)]
@@ -37,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'responsable', targetEntity: Tickets::class)]
     private $tickets;
+
+    #[ORM\Column(type: 'string', length: 10)]
+    private $occupation;
 
     public function __construct()
     {
@@ -138,9 +145,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, UserPhone>
-     */
     public function getUserPhones(): Collection
     {
         return $this->userPhones;
@@ -168,9 +172,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Tickets>
-     */
     public function getTickets(): Collection
     {
         return $this->tickets;
@@ -196,5 +197,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getOccupation()
+    {
+        return $this->occupation;
+    }
+
+    public function setOccupation($occupation)
+    {
+        $this->occupation = $occupation;
+
+        return $this;
+    }
+
+    public function getPhonesListString()
+    {
+        return implode(' - ' , $this->userPhones->map(function (UserPhone $phone) {
+            return $phone->getPhone()->getNumber();
+        })->toArray());
     }
 }

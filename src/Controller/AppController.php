@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ClientUser;
+use App\Entity\User;
 use Doctrine\Migrations\Version\State;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -59,13 +61,27 @@ class AppController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function clients(Request $request): Response
     {
-        return new JsonResponse(['ok' => true]);
+        $em = $this->doctrine->getManager();
+
+        $clients = $em->getRepository(ClientUser::class)->listClients();
+
+        return $this->render('client/index.html.twig', [
+            'userEntity' => $clients,
+            'label'      => 'Cliente'
+        ]);
     }
 
-    #[Route('/technical', name: 'app_techs')]
+    #[Route('/technicians', name: 'app_techs')]
     #[IsGranted('ROLE_ADMIN')]
     public function technical(Request $request): Response
     {
-        return new JsonResponse(['ok' => true]);
+        $em = $this->doctrine->getManager();
+
+        $techs = $em->getRepository(User::class)->listTechs();
+
+        return $this->render('client/index.html.twig', [
+            'userEntity' => $techs,
+            'label'      => 'Técnico'
+        ]);
     }
 }

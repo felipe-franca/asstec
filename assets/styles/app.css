@@ -63,7 +63,7 @@ input {
 }
 
 .bg-base {
-    background-color: #f3f3f3;
+    background-color: #f6f6f6;
 }
 
 .bg-blue {
@@ -80,6 +80,10 @@ input {
 
 .bg-yellow {
     background-color: #f4ab43;
+}
+
+.bg-full-white {
+    background-color: #fff;
 }
 
 .font-white {
@@ -156,4 +160,17 @@ input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.totalizer {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.padding {
+    padding: 10px;
 }

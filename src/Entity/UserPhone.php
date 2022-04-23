@@ -16,7 +16,7 @@ class UserPhone
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'userPhones')]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: Phone::class, inversedBy: 'userPhones')]
+    #[ORM\ManyToOne(targetEntity: Phone::class, inversedBy: 'userPhones', fetch: "EAGER")]
     private $phone;
 
     #[ORM\ManyToOne(targetEntity: ClientUser::class, inversedBy: 'userPhones')]

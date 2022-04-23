@@ -62,22 +62,15 @@ class ClientUserRepository extends ServiceEntityRepository implements PasswordUp
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return ClientUser[] Returns an array of ClientUser objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function listClients()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('c.username', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?ClientUser

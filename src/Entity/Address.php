@@ -28,6 +28,15 @@ class Address
     #[ORM\Column(type: 'string', length: 8)]
     private $postal_code;
 
+    public function __toString()
+    {
+        return sprintf("%s, Nº%s - %s",
+            $this->address,
+            $this->number,
+            $this->uf
+        );
+    }
+
     public function getId(): ?int
     {
         return $this->id;
