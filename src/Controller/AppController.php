@@ -13,6 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tickets;
 class AppController extends AbstractController
 {
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+
+    }
+
     #[Route('/home', name: 'app_home')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
@@ -24,9 +32,9 @@ class AppController extends AbstractController
     }
 
     #[Route('/opened', name: 'app_opened')]
-    public function opened(Request $request, ManagerRegistry $doctrine): Response
+    public function opened(Request $request): Response
     {
-        $em = $doctrine->getManager();
+        $em = $this->doctrine->getManager();
         $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_OPENED);
 
         return $this->render('opened/index.html.twig', [
