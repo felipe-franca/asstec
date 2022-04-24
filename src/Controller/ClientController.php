@@ -21,7 +21,7 @@ class ClientController extends DefaultController
 
         return $this->render('client/index.html.twig', [
             'userEntity' => $clients,
-            'label'      => 'Cliente',
+            'label'      => 'client',
             'total'      => count($clients)
         ]);
     }

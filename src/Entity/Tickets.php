@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Tickets
 {
 
-    const STATUS_OPENED = 'opened';
-    const STATUS_ACTING = 'acting';
-    const STATUS_FINISHED = 'finished';
+    const STATUS_APPROVAL_PENDING = 'approval_pending';
+    const STATUS_OPENED           = 'opened';
+    const STATUS_ACTING           = 'acting';
+    const STATUS_FINISHED         = 'finished';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -65,9 +66,10 @@ class Tickets
 
 
     public static $statuses = [
-        self::STATUS_ACTING => 'Analista Atuando',
-        self::STATUS_OPENED => 'Em Aberto',
-        self::STATUS_FINISHED => 'Finalizado',
+        self::STATUS_ACTING           => 'Analista Atuando',
+        self::STATUS_OPENED           => 'Em Aberto',
+        self::STATUS_FINISHED         => 'Finalizados',
+        self::STATUS_APPROVAL_PENDING => 'Aguardando Aprovação'
     ];
 
     public function getId(): ?int

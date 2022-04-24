@@ -18,21 +18,37 @@ class TicketsController extends DefaultController
         $em = $this->doctrine->getManager();
         $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_OPENED);
 
-        return $this->render('opened/index.html.twig', [
+        return $this->render('tickets/index.html.twig', [
             'tickets' => $tickets,
+            'status'  => Tickets::$statuses[Tickets::STATUS_OPENED],
+            'total'   => count($tickets)
         ]);
     }
 
     #[Route('/closed', name: 'app_closed')]
     public function closed(Request $request): Response
     {
-        return new JsonResponse(['ok' => true]);
+        $em = $this->doctrine->getManager();
+        $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_FINISHED);
+
+        return $this->render('tickets/index.html.twig', [
+            'tickets' => $tickets,
+            'status'  => Tickets::$statuses[Tickets::STATUS_FINISHED],
+            'total'   => count($tickets)
+        ]);
     }
 
     #[Route('/waiting', name: 'app_waiting')]
     #[IsGranted('ROLE_ADMIN')]
     public function waiting(Request $request): Response
     {
-        return new JsonResponse(['ok' => true]);
+        $em = $this->doctrine->getManager();
+        $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_APPROVAL_PENDING);
+
+        return $this->render('tickets/index.html.twig', [
+            'tickets' => $tickets,
+            'status'  => Tickets::$statuses[Tickets::STATUS_APPROVAL_PENDING],
+            'total'   => count($tickets)
+        ]);
     }
 }
