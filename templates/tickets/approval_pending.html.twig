@@ -1,0 +1,59 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block page_title %}
+	<i class="fa-solid fa-door-open"></i>
+	Chamados
+	{{ status }}
+{% endblock %}
+
+{% block content %}
+	<div class='container-fluid totalizer shadow bg-full-white rounded-3'>
+		<p>{{ total }}</p>
+		<p>Total</p>
+	</div>
+    <br>
+	<div class='container-fluid'>
+		<div class='row justify-content-end'>
+			<div class='col-3'>
+				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
+					<i class="fa-solid fa-chart-simple"></i>&nbsp&nbsp Exportar Relatório
+				</a>
+			</div>
+		</div>
+	</div>
+    <br>
+	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="">Número</th>
+					<th scope="col">Cliente</th>
+					<th scope="col">Data Abertura</th>
+					<th scope="col">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for ticket in tickets %}
+					<tr>
+						<td>{{ ticket.getTicketNumber}}</td>
+						<td>{{ ticket.getClient.getUserName}}</td>
+						<td>{{ ticket.getCreatedAt|date('d/m/Y')}}</td>
+						<td>
+							<a href={{ path('app_ticket_approve', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
+								<i class="fa-regular fa-circle-check"></i>&nbsp Approvar
+							</a>
+							<a class='btn btn-sm bg-blue font-white shadow-sm'>
+								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+		{% if tickets|length == 0  %}
+			<div class='container-fluid mt-3'>
+				<h3>Nenhuma pendência por aqui !</h3>
+			</div>
+		{% endif %}
+{% endblock content %}

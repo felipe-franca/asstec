@@ -42,7 +42,7 @@ class MenuBuilder
 
         if ($this->context->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Aguardando Aprovação', [
-                'route' => 'app_waiting',
+                'route' => 'app_tickets_waiting',
                 'extras' => ['icon' => 'hourglass']
             ]);
 
@@ -68,7 +68,8 @@ class MenuBuilder
             'route' => 'app_home',
             'extras' => [
                 'icon' => 'fa-circle-user',
-                'label' => 'Ola, ' . $this->context->getUser()->getUsername(),]
+                'label' => 'Ola, ' . $this->context->getUser()->getUsername(),
+            ]
         ]);
 
         return $navbar;

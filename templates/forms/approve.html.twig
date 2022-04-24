@@ -1,0 +1,14 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block page_title %}
+	<i class="fa-solid fa-door-open"></i>
+	Chamados {{ status }} / Aprovar
+{% endblock %}
+
+{% block content %}
+	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+        {{ form_start(form, {'action': path('app_ticket_approve', {'id': ticket.getId}), 'method': 'POST'}) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock content %}
