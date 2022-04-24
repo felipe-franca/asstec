@@ -12,14 +12,14 @@
 
 {% block content %}
 	<div class='container-fluid totalizer shadow bg-full-white rounded-3'>
-			<p>1</p>
+			<p>{{ total }}</p>
 			<p>Total</p>
 	</div>
     <br>
 	<div class='container-fluid'>
 		<div class='row justify-content-end'>
 			<div class='col-4'>
-				<a href="#" class='btn btn-sm bg-green font-white'>
+				<a href="#" class='btn btn-sm bg-green font-white shadow-sm'>
 					<i class="fa-solid fa-user-plus"></i>&nbsp&nbsp Novo {{ label }}
 				</a>
 				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
