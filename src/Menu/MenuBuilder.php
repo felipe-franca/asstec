@@ -47,7 +47,7 @@ class MenuBuilder
             ]);
 
             $menu->addChild('Clientes', [
-                'route' => 'app_clients',
+                'route' => 'customers',
                 'extras' => ['icon' => 'users']
             ]);
 
