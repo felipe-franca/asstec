@@ -71,7 +71,6 @@ class ClientUserRepository extends ServiceEntityRepository implements PasswordUp
         ;
     }
 
-
     /*
     public function findOneBySomeField($value): ?ClientUser
     {

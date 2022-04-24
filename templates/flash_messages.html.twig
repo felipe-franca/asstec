@@ -1,7 +1,23 @@
-{% if error %}
-	<div class='alert alert-danger alert-dismissible fade show' role="alert">
-		<i class="fa-solid fa-triangle-exclamation"></i>
-		{{ error }}
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
+{% if app.session.getFlashBag.has('success') %}
+	{% for message in app.session.flashbag.get('success') %}
+		<div class="alert alert-success">
+			<i class="fa-regular fa-circle-check"></i> {{ message|raw }}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if app.session.flashbag.has('warning') %}
+	{% for message in app.session.flashbag.get('warning') %}
+		<div class="alert alert-warning">
+			<i class="fa-solid fa-triangle-exclamation"></i> {{ message|raw  }}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% if app.session.getFlashBag.has('error') %}
+	{% for message in app.session.flashbag.get('error') %}
+		<div class="alert alert-danger">
+			<i class="fa-solid fa-triangle-exclamation"></i> {{ message|raw }}
+		</div>
+	{% endfor %}
 {% endif %}

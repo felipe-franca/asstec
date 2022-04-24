@@ -8,11 +8,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Form\AddressType;
+use App\Form\PhoneType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Entity\Phone;
 
 class NewClientType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -44,6 +49,7 @@ class NewClientType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ClientUser::class,
+            'allow_extra_fields' => true
         ]);
     }
 }

@@ -50,10 +50,10 @@
 						<td>{{ entity.getAddress.__toString }}</td>
 						<td>{{ entity.getPhonesListString }}</td>
 						<td>
-							<a class='btn btn-sm bg-red font-white'>
+							<a href="{{ path('customer_delete', {'id': entity.getId}) }}" class='btn btn-sm bg-red font-white'>
 								<i class='fa-solid fa-trash-can'></i>&nbsp&nbsp Excluir
 							</a>
-							<a class='btn btn-sm bg-blue font-white'>
+							<a href="{{ path('customer_edit', {'id': entity.getId}) }}" class='btn btn-sm bg-blue font-white'>
 								<i class="fa-solid fa-pen-to-square"></i>&nbsp&nbsp Editar
 							</a>
 						</td>

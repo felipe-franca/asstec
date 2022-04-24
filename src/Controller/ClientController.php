@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\ClientUser;
 use App\Form\NewClientType;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ClientController extends DefaultController
@@ -31,7 +30,7 @@ class ClientController extends DefaultController
 
     #[Route('/customer/new', name: 'customer_new')]
     #[IsGranted('ROLE_ADMIN')]
-    public function newCustomer(Request $request, UserPasswordHasherInterface $userPasswordHasher)
+    public function newCustomer(Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $em = $this->doctrine->getManager();
 
@@ -40,24 +39,74 @@ class ClientController extends DefaultController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $newClient = $form->getData();
 
-            $hashedPassword = $userPasswordHasher->hashPassword(
-                $newClient,
-                'wpsbrasil'
-            );
+            try {
+                $newClient = $form->getData();
 
-            $client->setPassword($hashedPassword);
+                $hashedPassword = $userPasswordHasher->hashPassword(
+                    $newClient,
+                    'wpsbrasil'
+                );
 
-            $em->persist($newClient);
-            $em->flush();
+                $client->setPassword($hashedPassword);
 
+                $em->persist($newClient);
+                $em->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('warning', $e->getMessage());
+                return $this->redirectToRoute('customer_new');
+            }
+
+            $this->addFlash('success', 'Cliente cadastrado com sucesso !');
             return $this->redirectToRoute('customers');
         }
 
         return $this->render('forms/new_client.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
+    #[Route('/customer/delete/{id}', name: 'customer_delete')]
+    public function removeClient(Request $request, ClientUser $user): Response
+    {
+        $em = $this->doctrine->getManager();
+        try {
+            $em->getRepository(ClientUser::class)->remove($user);
+            $this->addFlash('success', 'Cliente removido com sucesso !');
+        } catch(\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('customers');
+    }
+
+    #[Route('admin/cliente/editar/{id}', name: 'customer_edit')]
+    public function editCustomer(Request $request, ClientUser $user): Response
+    {
+        $em = $this->doctrine->getManager();
+
+        $form = $this->createForm(NewClientType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            try {
+                $editedClient = $form->getData();
+
+                $em->persist($editedClient);
+                $em->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('warning', $e->getMessage());
+                return $this->redirectToRoute('customer_new');
+            }
+
+            $this->addFlash('success', 'Cliente atualizado com sucesso !');
+            return $this->redirectToRoute('customers');
+        }
+
+        return $this->render('forms/edit_client.html.twig', [
+            'form'   => $form->createView(),
+            'user'   => $user
+        ]);
+    }
 }
