@@ -13,8 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
-    const TECH_OCCUPATION  = 'technician';
-    const ADMIN_OCCUPATION = 'adimin';
+    const TECH_OCCUPATION  = 'ROLE_ANALYST';
+    const ADMIN_OCCUPATION = 'ROLE_ADMIN';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'responsable', targetEntity: Tickets::class)]
     private $tickets;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 20)]
     private $occupation;
 
     public function __construct()
@@ -50,6 +50,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userPhones = new ArrayCollection();
         $this->tickets = new ArrayCollection();
     }
+
+    public static $rolesList = [
+        'Administrador' => self::ADMIN_OCCUPATION,
+        'Técnico' => self::TECH_OCCUPATION
+    ];
 
     public function getId(): ?int
     {

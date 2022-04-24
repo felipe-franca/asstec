@@ -44,6 +44,14 @@ ul {
     list-style-type: none;
 }
 
+tr {
+    transition: all .3s;
+}
+
+tbody>tr:hover {
+    transform: scale(1.01);
+}
+
 form a:hover {
     cursor: pointer;
     letter-spacing: 1.05px

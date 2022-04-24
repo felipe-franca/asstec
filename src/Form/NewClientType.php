@@ -38,7 +38,7 @@ class NewClientType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Cadastrar',
-                'attr' => [
+                'attr'  => [
                     'class' => 'btn bg-green font-white'
                 ]
             ])
@@ -48,7 +48,7 @@ class NewClientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ClientUser::class,
+            'data_class'         => ClientUser::class,
             'allow_extra_fields' => true
         ]);
     }

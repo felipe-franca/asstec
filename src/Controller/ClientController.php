@@ -13,22 +13,22 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ClientController extends DefaultController
 {
-    #[Route('/customers', name: 'customers')]
+    #[Route('/cli', name: 'customers')]
     #[IsGranted('ROLE_ADMIN')]
-    public function clients(Request $request): Response
+    public function listCustomers(Request $request): Response
     {
         $em = $this->doctrine->getManager();
 
         $clients = $em->getRepository(ClientUser::class)->listClients();
 
-        return $this->render('client/index.html.twig', [
+        return $this->render('datatable/index.html.twig', [
             'userEntity' => $clients,
             'label'      => 'client',
             'total'      => count($clients)
         ]);
     }
 
-    #[Route('/customer/new', name: 'customer_new')]
+    #[Route('/cli/novo', name: 'customer_new')]
     #[IsGranted('ROLE_ADMIN')]
     public function newCustomer(Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -49,6 +49,7 @@ class ClientController extends DefaultController
                 );
 
                 $client->setPassword($hashedPassword);
+                $client->setRoles(['ROLE_USER']);
 
                 $em->persist($newClient);
                 $em->flush();
@@ -66,8 +67,8 @@ class ClientController extends DefaultController
         ]);
     }
 
-    #[Route('/customer/delete/{id}', name: 'customer_delete')]
-    public function removeClient(Request $request, ClientUser $user): Response
+    #[Route('/cli/delete/{id}', name: 'customer_delete')]
+    public function removeCustomer(Request $request, ClientUser $user): Response
     {
         $em = $this->doctrine->getManager();
         try {
@@ -80,7 +81,7 @@ class ClientController extends DefaultController
         return $this->redirectToRoute('customers');
     }
 
-    #[Route('admin/cliente/editar/{id}', name: 'customer_edit')]
+    #[Route('/cli/editar/{id}', name: 'customer_edit')]
     public function editCustomer(Request $request, ClientUser $user): Response
     {
         $em = $this->doctrine->getManager();

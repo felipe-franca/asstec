@@ -19,7 +19,7 @@
 	<div class='container-fluid'>
 		<div class='row justify-content-end'>
 			<div class='col-4'>
-				<a href="{{ path('customer_new') }}" class='btn btn-sm bg-green font-white shadow-sm'>
+				<a href="{{ path( label =='techs' ? 'app_techs_new' : 'customer_new') }}" class='btn btn-sm bg-green font-white shadow-sm'>
 					<i class="fa-solid fa-user-plus"></i>&nbsp&nbsp Novo {{ label == 'client' ? 'Cliente' : 'Usuário' }}
 				</a>
 				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
@@ -50,10 +50,10 @@
 						<td>{{ entity.getAddress.__toString }}</td>
 						<td>{{ entity.getPhonesListString }}</td>
 						<td>
-							<a href="{{ path('customer_delete', {'id': entity.getId}) }}" class='btn btn-sm bg-red font-white'>
+							<a href="{{ path(label == 'techs' ? 'app_techs_delete' : 'customer_delete', {'id': entity.getId}) }}" class='btn btn-sm bg-red font-white'>
 								<i class='fa-solid fa-trash-can'></i>&nbsp&nbsp Excluir
 							</a>
-							<a href="{{ path('customer_edit', {'id': entity.getId}) }}" class='btn btn-sm bg-blue font-white'>
+							<a href="{{ path(label == 'techs' ? 'app_techs_edit' : 'customer_edit', {'id': entity.getId}) }}" class='btn btn-sm bg-blue font-white'>
 								<i class="fa-solid fa-pen-to-square"></i>&nbsp&nbsp Editar
 							</a>
 						</td>
