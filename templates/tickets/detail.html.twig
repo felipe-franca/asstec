@@ -1,0 +1,61 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block page_title %}
+	<i class="fa-solid fa-door-open"></i>
+	Chamados / Nº
+	{{ ticket.getTicketNumber }}
+{% endblock %}
+
+{% block content %}
+	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+		<h4>Dados do Chamado</h4>
+		<table class='table-sm form-control'>
+			<tbody>
+				<tr>
+					<th>Aberto Por:
+					</th>
+					<td>{{ ticket.getClient.getUserName }}</td>
+					<br>
+					<th>Email:
+					</th>
+					<td>{{ ticket.getClient.getEmail }}</td>
+					<th>Aberto Em:
+					</th>
+					<td>{{ ticket.getCreatedAt|date('d/m/Y H:i') }}</td>
+				</tr>
+				<tr>
+					<th>Responsável:
+					</th>
+					<td>{{ ticket.getResponsable.getUsername }}</td>
+					<th></th>
+					<td></td>
+					<th>Status:
+					</th>
+					<td>{{ ticket.getStatusLabel }}</td>
+				</tr>
+				<tr>
+					<th>Motivo:
+					</th>
+					<td>{{ ticket.getReason }}</td>
+				</tr>
+				<tr>
+					<th>Observações:
+					</th>
+					<td>{{ ticket.getObservation }}</td>
+				</tr>
+				{% if ticket.getStatus == 'finished' %}
+					<tr>
+						<th>Fechado Em:
+						</th>
+						<td>{{ ticket.getClosedAt|date('d/m/Y H:i') }}</td>
+					</tr>
+					<tr>
+						<th>Solução:
+						</th>
+						<td>{{ ticket.getSolution }}</td>
+					</tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+{% endblock content %}

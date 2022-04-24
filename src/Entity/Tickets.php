@@ -68,7 +68,7 @@ class Tickets
     public static $statuses = [
         self::STATUS_ACTING           => 'Analista Atuando',
         self::STATUS_OPENED           => 'Em Aberto',
-        self::STATUS_FINISHED         => 'Fechados',
+        self::STATUS_FINISHED         => 'Fechado',
         self::STATUS_APPROVAL_PENDING => 'Aguardando Aprovação'
     ];
 
@@ -219,5 +219,10 @@ class Tickets
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getStatusLabel()
+    {
+        return Tickets::$statuses[$this->getStatus()];
     }
 }

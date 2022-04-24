@@ -85,4 +85,12 @@ class TicketsController extends DefaultController
             'form'   => $form->createView(),
         ]);
     }
+
+    #[Route('chamados/detalhes/{id}', name: 'app_tickets_details')]
+    public function ticketDetails(Request $request, Tickets $ticket): Response
+    {
+        return $this->render('tickets/detail.html.twig', [
+            'ticket' => $ticket
+        ]);
+    }
 }
