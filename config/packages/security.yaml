@@ -28,12 +28,14 @@ security:
 
         client_login:
             lazy: true
-            pattern: ^/client
+            pattern: ^/cliente
             provider: app_client_user_provider
             form_login:
                 login_path: app_client_login
                 check_path: app_client_login
                 enable_csrf: true
+            logout:
+                path: client_logout
 
         main:
             lazy: true
@@ -43,6 +45,8 @@ security:
                 login_path: login
                 check_path: login
                 enable_csrf: true
+            logout:
+                path: app_logout
 
         # main:
         #     pattern: ^/
@@ -68,7 +72,7 @@ security:
         - { path: ^/techcnical, roles: ROLE_ADMIN }
         - { path: ^/opened, roles: ROLE_ANALYST }
         - { path: ^/closed, roles: ROLE_ANALYST }
-        - { path: ^/client/home, roles: ROLE_USER }
+        - { path: ^/cliente/home, roles: ROLE_USER }
 
 when@test:
     security:
