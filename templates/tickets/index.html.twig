@@ -41,9 +41,9 @@
 						<td>{{ ticket.getCreatedAt|date('d/m/Y')}}</td>
 						<td>{{ ticket.getResponsable.getUsername}}</td>
 						<td>
-							<button class='btn btn-sm bg-green font-white shadow-sm'>
+							<a href={{ path('app_tickets_finish', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
 								<i class="fa-regular fa-circle-check"></i>&nbsp Finalizar
-							</button>
+							</a>
 							<a href={{ path('app_tickets_details', {'id': ticket.getId}) }} class='btn btn-sm bg-blue font-white shadow-sm'>
 								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes
 							</a>

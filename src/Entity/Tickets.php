@@ -113,24 +113,24 @@ class Tickets
         return $this;
     }
 
-    public function getClosedAt(): ?\DateTimeImmutable
+    public function getClosedAt(): ?\DateTime
     {
         return $this->closedAt;
     }
 
-    public function setClosedAt(?\DateTimeImmutable $closedAt): self
+    public function setClosedAt(?\DateTime $closedAt): self
     {
         $this->closedAt = $closedAt;
 
         return $this;
     }
 
-    public function getServiceStart(): ?\DateTimeInterface
+    public function getServiceStart(): ?\DateTime
     {
         return $this->serviceStart;
     }
 
-    public function setServiceStart(?\DateTimeInterface $serviceStart): self
+    public function setServiceStart(?\DateTime $serviceStart): self
     {
         $this->serviceStart = $serviceStart;
 

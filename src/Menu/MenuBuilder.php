@@ -36,7 +36,7 @@ class MenuBuilder
         ]);
 
         $menu->addChild('Chamados Fechados', [
-            'route' => 'app_closed',
+            'route' => 'app_tickets_closed',
             'extras' => ['icon' => 'door-closed']
         ]);
 

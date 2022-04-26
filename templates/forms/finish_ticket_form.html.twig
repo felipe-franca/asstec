@@ -1,0 +1,14 @@
+{% extends 'layout/layout.html.twig' %}
+
+{% block page_title %}
+	<i class="fa-solid fa-clipboard-check"></i>
+	Chamados / Finalizar / Nº {{ticket.getTicketNumber}}
+{% endblock %}
+
+{% block content %}
+	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+        {{ form_start(form, {'action': path('app_tickets_finish', { 'id': ticket.getId }), 'method': 'POST'}) }}
+			{{ form_widget(form) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock content %}

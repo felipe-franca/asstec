@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Tickets;
+use App\Form\TicketsFinishType;
+use App\Form\TicketApprovalType;
 use App\Controller\DefaultController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\TicketApprovalType;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TicketsController extends DefaultController
 {
@@ -26,7 +28,7 @@ class TicketsController extends DefaultController
         ]);
     }
 
-    #[Route('/chamados/fechados', name: 'app_closed')]
+    #[Route('/chamados/fechados', name: 'app_tickets_closed')]
     public function closed(Request $request): Response
     {
         $em = $this->doctrine->getManager();
@@ -91,6 +93,38 @@ class TicketsController extends DefaultController
     {
         return $this->render('tickets/detail.html.twig', [
             'ticket' => $ticket
+        ]);
+    }
+
+    #[Route('/chamados/finalizar/{id}', name: 'app_tickets_finish')]
+    public function finish(Request $request, Tickets $ticket): Response
+    {
+        $em = $this->doctrine->getManager();
+
+        $form = $this->createForm(TicketsFinishType::class, $ticket);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $ticket = $form->getData();
+
+                $ticket->setStatus(Tickets::STATUS_FINISHED);
+                $ticket->setClosedAt(new \DateTime('now'));
+
+                $em->persist($ticket);
+                $em->flush();
+
+                $this->addFlash('success', 'Chamado encerrado com sucesso.');
+                return $this->redirectToRoute('app_tickets_closed');
+            } catch(\Exception $e) {
+                $this->addFlash('warning', $e->getMessage());
+                return $this->redirectToRoute('app_tickets_finish');
+            }
+        }
+
+        return $this->render('forms/finish_ticket_form.html.twig', [
+            'ticket' => $ticket,
+            'form'   => $form->createView(),
         ]);
     }
 }
