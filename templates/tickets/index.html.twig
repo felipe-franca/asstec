@@ -14,7 +14,12 @@
     <br>
 	<div class='container-fluid'>
 		<div class='row justify-content-end'>
-			<div class='col-3'>
+			<div class='col-4'>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href={{ path('app_ticket_new') }} class='btn btn-sm bg-green font-white shadow-sm'>
+						<i class="fa-solid fa-file-circle-plus"></i>&nbsp&nbsp Novo Chamado
+					</a>
+				{% endif %}
 				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
 					<i class="fa-solid fa-chart-simple"></i>&nbsp&nbsp Exportar Relatório
 				</a>
@@ -41,9 +46,11 @@
 						<td>{{ ticket.getCreatedAt|date('d/m/Y')}}</td>
 						<td>{{ ticket.getResponsable.getUsername}}</td>
 						<td>
-							<a href={{ path('app_tickets_finish', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
-								<i class="fa-regular fa-circle-check"></i>&nbsp Finalizar
-							</a>
+							{% if ticket.getStatus != 'finished' %}
+								<a href={{ path('app_tickets_finish', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
+									<i class="fa-regular fa-circle-check"></i>&nbsp Finalizar
+								</a>
+							{% endif %}
 							<a href={{ path('app_tickets_details', {'id': ticket.getId}) }} class='btn btn-sm bg-blue font-white shadow-sm'>
 								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes
 							</a>

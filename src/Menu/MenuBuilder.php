@@ -31,7 +31,7 @@ class MenuBuilder
         }
 
         $menu->addChild('Chamados Abertos', [
-            'route' => 'app_opened',
+            'route' => 'app_tickets_opened',
             'extras' => ['icon' => 'door-open']
         ]);
 

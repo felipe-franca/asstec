@@ -7,6 +7,7 @@ use App\Entity\Tickets;
 use App\Form\TicketsFinishType;
 use App\Form\TicketApprovalType;
 use App\Controller\DefaultController;
+use App\Form\TicketOpenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TicketsController extends DefaultController
 {
-    #[Route('/chamados/abertos', name: 'app_opened')]
+    #[Route('/chamados/abertos', name: 'app_tickets_opened')]
     public function opened(Request $request): Response
     {
         $em = $this->doctrine->getManager();
@@ -123,6 +124,42 @@ class TicketsController extends DefaultController
         }
 
         return $this->render('forms/finish_ticket_form.html.twig', [
+            'ticket' => $ticket,
+            'form'   => $form->createView(),
+        ]);
+    }
+
+    #[Route('/chamados/novo-chamado', name: 'app_ticket_new')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function openTicket(Request $request): Response
+    {
+        $em  = $this->doctrine->getManager();
+
+        $ticket = new Tickets();
+        $form = $this->createForm(TicketOpenType::class, $ticket);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $ticket = $form->getData();
+
+                $ticket->setCreatedAt(new \DateTime('now'));
+                $ticket->setUpdatedAt(new \DateTime('now'));
+                $ticket->setStatus(Tickets::STATUS_OPENED);
+
+                $em->persist($ticket);
+                $em->flush();
+
+                $this->addFlash('success', 'Chamado aberto com sucesso !');
+                return $this->redirectToRoute('app_tickets_opened');
+            } catch (\Exception $e) {
+                $this->addFlash('warning', 'Erro ao abrir chamado. Tente novamente.');
+                return $this->redirectToRoute('app_ticket_new');
+            }
+        }
+
+        return $this->render('forms/open_ticket_form.html.twig', [
             'ticket' => $ticket,
             'form'   => $form->createView(),
         ]);

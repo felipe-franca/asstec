@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block content %}
-	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+	<div class='container-fluid shadow bg-full-white padding'>
 		<h4>Dados do Chamado</h4>
-		<table class='table-sm form-control'>
+		<table class='table-sm form-control rounded-3'>
 			<tbody>
 				<tr>
 					<th>Aberto Por:
@@ -45,12 +45,27 @@
 				</tr>
 				{% if ticket.getStatus == 'finished' %}
 					<tr>
+						<th>
+							Inicio do serviço:
+						</th>
+						<td>
+							{{ ticket.getServiceStart|date('d/m/Y H:i') }}
+						</td>
+						<th>
+							Termino do Serviço:
+						</th>
+						<td>
+							{{ ticket.getServiceEnd|date('d/m/Y H:i') }}
+						</td>
+					</tr>
+					<tr>
 						<th>Fechado Em:
 						</th>
 						<td>{{ ticket.getClosedAt|date('d/m/Y H:i') }}</td>
 					</tr>
 					<tr>
-						<th>Solução:
+						<th>
+							Solução:
 						</th>
 						<td>{{ ticket.getSolution }}</td>
 					</tr>
