@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use Exception;
 use App\Entity\Tickets;
+use App\Form\TicketOpenType;
 use App\Form\TicketsFinishType;
 use App\Form\TicketApprovalType;
 use App\Controller\DefaultController;
-use App\Form\TicketOpenType;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class TicketsController extends DefaultController
 {
@@ -23,9 +26,10 @@ class TicketsController extends DefaultController
         $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_OPENED);
 
         return $this->render('tickets/index.html.twig', [
-            'tickets' => $tickets,
-            'status'  => Tickets::$statuses[Tickets::STATUS_OPENED],
-            'total'   => count($tickets)
+            'tickets'     => $tickets,
+            'statusLabel' => Tickets::$statuses[Tickets::STATUS_OPENED],
+            'status'      => Tickets::STATUS_OPENED,
+            'total'       => count($tickets)
         ]);
     }
 
@@ -36,9 +40,10 @@ class TicketsController extends DefaultController
         $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_FINISHED);
 
         return $this->render('tickets/index.html.twig', [
-            'tickets' => $tickets,
-            'status'  => Tickets::$statuses[Tickets::STATUS_FINISHED],
-            'total'   => count($tickets)
+            'tickets'     => $tickets,
+            'statusLabel' => Tickets::$statuses[Tickets::STATUS_FINISHED],
+            'status'      => Tickets::STATUS_FINISHED,
+            'total'       => count($tickets)
         ]);
     }
 
@@ -50,9 +55,10 @@ class TicketsController extends DefaultController
         $tickets = $em->getRepository(Tickets::class)->findByStatus(Tickets::STATUS_APPROVAL_PENDING);
 
         return $this->render('tickets/approval_pending.html.twig', [
-            'tickets' => $tickets,
-            'status'  => Tickets::$statuses[Tickets::STATUS_APPROVAL_PENDING],
-            'total'   => count($tickets)
+            'tickets'     => $tickets,
+            'statusLabel' => Tickets::$statuses[Tickets::STATUS_APPROVAL_PENDING],
+            'status'      => Tickets::STATUS_APPROVAL_PENDING,
+            'total'       => count($tickets)
         ]);
     }
 
@@ -163,5 +169,95 @@ class TicketsController extends DefaultController
             'ticket' => $ticket,
             'form'   => $form->createView(),
         ]);
+    }
+
+    #[Route('/chamados/exportar/{slug}', name: 'app_tickets_export_xls')]
+    public function exportTickets(Request $request, string $slug): Response
+    {
+        $em       = $this->doctrine->getManager();
+        $now      = new \DateTime('now');
+
+        $fileName = \str_replace([' '], '_',
+            \sprintf( 'chamados_%s_%s.xlsx',
+                \strtolower(Tickets::$statuses[$slug]),
+                 $now->format('d_m_Y')
+            )
+        );
+
+        $tickets = $em->getRepository(Tickets::class)->findByStatus($slug);
+
+        $spreedsheet = new Spreadsheet();
+        $sheet       = $spreedsheet->getActiveSheet();
+
+        $sheet->setTitle('Chamados ' . Tickets::$statuses[$slug]);
+        $sheet->setCellValue('A1', 'Chamados ' . Tickets::$statuses[$slug]);
+        $sheet->setCellValue('C1', 'Exportado em:');
+        $sheet->setCellValue('D1', $now->format('d/m/Y H:i'));
+
+        $sheet->setCellValue('A3', 'Total: ' . count($tickets));
+
+        $sheet->getStyle('A1')->getFont()->setBold(true);
+        $sheet->getStyle('A3')->getFont()->setBold(true);
+
+        $sheet->setCellValue('A5', 'Número');
+        $sheet->setCellValue('B5', 'Cliente');
+        $sheet->setCellValue('C5', 'Data Abertura');
+        $sheet->setCellValue('D5', 'Responsável');
+        $sheet->setCellValue('E5', 'Motivo');
+        $sheet->setCellValue('F5', 'Observações');
+        $sheet->setCellValue('G5', 'Fechado Em');
+        $sheet->setCellValue('H5', 'Inicio do Serviço');
+        $sheet->setCellValue('I5', 'Término do Serviço');
+        $sheet->setCellValue('J5', 'Solução');
+
+        $sheet->getStyle('A5:J5')
+            ->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()
+            ->setRGB('C0C0C0');
+
+        $headersFont = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ]
+        ];
+
+        $sheet->getStyle('A5:J5')->applyFromArray($headersFont);
+
+        $row = 6;
+        foreach ($tickets as $ticket) {
+            $sheet->setCellValue('A' . $row, $ticket->getTicketNumber());
+            $sheet->setCellValue('B' . $row, $ticket->getClient()->getUsername());
+            $sheet->setCellValue('C' . $row, $ticket->getCreatedAt()->format('d/m/Y H:i'));
+            $sheet->setCellValue('D' . $row, $ticket->getResponsable()->getUsername()?: '-');
+            $sheet->setCellValue('E' . $row, $ticket->getReason()?: '-');
+            $sheet->setCellValue('F' . $row, $ticket->getObservation()?: '-');
+            $sheet->setCellValue('G' . $row, $ticket->getClosedAt()? $ticket->getClosedAt()->format('d/m/Y H:i') : '-' );
+            $sheet->setCellValue('H' . $row, $ticket->getServiceStart()? $ticket->getServiceStart()->format('d/m/Y H:i') : '-' );
+            $sheet->setCellValue('I' . $row, $ticket->getServiceEnd()? $ticket->getServiceEnd()->format('d/m/Y H:i') : '-' );
+            $sheet->setCellValue('J' . $row, $ticket->getSolution()?: '-');
+            $row++;
+        }
+
+        $grid = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color'       => ['rgb' => '000000']
+                ]
+            ]
+        ];
+
+        $sheet->getStyle('A5:J' . ($row - 1))->applyFromArray($grid);
+
+        $writer    = new Xlsx($spreedsheet);
+        $temp_file = tempnam(\sys_get_temp_dir(), $fileName);
+
+        $writer->save($temp_file);
+
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

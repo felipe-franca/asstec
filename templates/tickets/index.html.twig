@@ -3,7 +3,7 @@
 {% block page_title %}
 	<i class="fa-solid fa-door-open"></i>
 	Chamados
-	{{ status }}
+	{{ statusLabel }}
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,7 @@
 						<i class="fa-solid fa-file-circle-plus"></i>&nbsp&nbsp Novo Chamado
 					</a>
 				{% endif %}
-				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
+				<a href={{ path('app_tickets_export_xls', {'slug' : status}) }} class='btn btn-sm bg-yellow font-white shadow-sm'>
 					<i class="fa-solid fa-chart-simple"></i>&nbsp&nbsp Exportar Relatório
 				</a>
 			</div>
@@ -34,6 +34,9 @@
 					<th scope="">Número</th>
 					<th scope="col">Cliente</th>
 					<th scope="col">Data Abertura</th>
+					{% if status == 'finished' %}
+						<th scope='col'>Fechado Em:</th>
+					{% endif %}
 					<th scope="col">Responsável</th>
 					<th scope="col">Ações</th>
 				</tr>
@@ -44,6 +47,9 @@
 						<td>{{ ticket.getTicketNumber}}</td>
 						<td>{{ ticket.getClient.getUserName}}</td>
 						<td>{{ ticket.getCreatedAt|date('d/m/Y')}}</td>
+						{% if ticket.getStatus == 'finished' %}
+							<td>{{ ticket.getClosedAt|date('d/m/Y H:i') }}</td>
+						{% endif %}
 						<td>{{ ticket.getResponsable.getUsername}}</td>
 						<td>
 							{% if ticket.getStatus != 'finished' %}
