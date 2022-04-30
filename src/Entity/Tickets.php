@@ -68,7 +68,7 @@ class Tickets
     public static $statuses = [
         self::STATUS_ACTING           => 'Analista Atuando',
         self::STATUS_OPENED           => 'Em Aberto',
-        self::STATUS_FINISHED         => 'Fechado',
+        self::STATUS_FINISHED         => 'Fechados',
         self::STATUS_APPROVAL_PENDING => 'Aguardando Aprovação'
     ];
 
