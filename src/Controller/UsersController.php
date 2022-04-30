@@ -125,7 +125,7 @@ class UsersController extends DefaultController
         return $this->spreadSheet('tech');
     }
 
-    #[Route('/cli/export', name: 'app_clients_export')]
+    #[Route('/cli/exportar', name: 'app_clients_export')]
     #[IsGranted('ROLE_ADMIN')]
     public function clientsExport(Request $request): Response
     {
@@ -150,8 +150,8 @@ class UsersController extends DefaultController
         $spreedsheet = new Spreadsheet();
         $sheet       = $spreedsheet->getActiveSheet();
 
-        $sheet->setTitle('Técnicos');
-        $sheet->setCellValue('A1', 'Técnicos');
+        $sheet->setTitle($userType == 'tech' ? 'Técnicos' : 'Clientes');
+        $sheet->setCellValue('A1', $userType == 'tech' ? 'Técnicos' : 'Clientes');
         $sheet->setCellValue('C1', 'Exportado em:');
         $sheet->setCellValue('D1', $now->format('d/m/Y H:i'));
 
