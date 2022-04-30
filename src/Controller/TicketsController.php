@@ -13,9 +13,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TicketsController extends DefaultController
 {
@@ -82,7 +81,7 @@ class TicketsController extends DefaultController
 
                 $this->addFlash('success', 'Chamado aprovado com sucesso !');
                 return $this->redirectToRoute('app_tickets_waiting');
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('app_ticket_approve');
             }
@@ -123,7 +122,7 @@ class TicketsController extends DefaultController
 
                 $this->addFlash('success', 'Chamado encerrado com sucesso.');
                 return $this->redirectToRoute('app_tickets_closed');
-            } catch(\Exception $e) {
+            } catch(Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('app_tickets_finish');
             }
@@ -159,7 +158,7 @@ class TicketsController extends DefaultController
 
                 $this->addFlash('success', 'Chamado aberto com sucesso !');
                 return $this->redirectToRoute('app_tickets_opened');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->addFlash('warning', 'Erro ao abrir chamado. Tente novamente.');
                 return $this->redirectToRoute('app_ticket_new');
             }

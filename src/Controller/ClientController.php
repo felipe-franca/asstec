@@ -21,7 +21,7 @@ class ClientController extends DefaultController
 
         $clients = $em->getRepository(ClientUser::class)->listClients();
 
-        return $this->render('datatable/index.html.twig', [
+        return $this->render('users/index.html.twig', [
             'userEntity' => $clients,
             'label'      => 'client',
             'total'      => count($clients)

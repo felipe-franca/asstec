@@ -18,12 +18,12 @@
     <br>
 	<div class='container-fluid'>
 		<div class='row justify-content-end'>
-			<div class='col-4'>
+			<div class='col-3'>
 				<a href="{{ path( label =='techs' ? 'app_techs_new' : 'customer_new') }}" class='btn btn-sm bg-green font-white shadow-sm'>
 					<i class="fa-solid fa-user-plus"></i>&nbsp&nbsp Novo {{ label == 'client' ? 'Cliente' : 'Usuário' }}
 				</a>
-				<a href="#" class='btn btn-sm bg-yellow font-white shadow-sm'>
-					<i class="fa-solid fa-chart-simple"></i>&nbsp&nbsp Exportar Relatório
+				<a href={{ path(label =='techs' ? 'app_techs_export' : 'app_clients_export') }} class='btn btn-sm bg-yellow font-white shadow-sm'>
+					<i class="fa-solid fa-file-export"></i>&nbsp&nbsp Exportar
 				</a>
 			</div>
 		</div>
