@@ -2,19 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+
+use App\Controller\DefaultController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginController extends AbstractController
+class LoginController extends DefaultController
 {
     #[Route('/', name: 'root')]
     public function root(): RedirectResponse
     {
-        if ($this->getUser())
-            return $this->redirectToRoute('app_home');
+        if ($this->getUser()) {
+            return  $this->context->isGranted('ROLE_ADMIN')
+                ? $this->redirectToRoute('app_home')
+                : $this->redirectToRoute('app_tickets_opened');
+        }
 
         return $this->redirectToRoute('login');
     }

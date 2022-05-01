@@ -3,7 +3,7 @@
 {% block page_title %} <i class="fa-solid fa-house"></i> Home{% endblock %}
 
 {% block content %}
-    <div class="container-fluid shadow bg-full-white rounded-3 padding">
+    <div id='home-charts' class="cntainer-fluid shadow bg-full-white rounded-3">
         <div class="row justify-content-center">
             <div class="col-5" id='chart_div0'></div>
             <div class="col-5" id='chart_div1'></div>
@@ -87,7 +87,7 @@
 		};
 
 		var options2 = {
-			title:'Chamados fechados no Mês',
+			title:'Análise Mensal',
 			legend: { position: 'top' },
 			width: 'auto',
 			height:300,
