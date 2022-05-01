@@ -57,15 +57,55 @@ class TicketsRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Tickets
+    public function getDailyOpenedData()
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where('MONTH(t.createdAt) = MONTH(NOW())')
+            ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
+            ->select('DAY(t.createdAt) AS Dia, COUNT(t.id) as Quantidade')
+            ->groupBy('Dia')
+            ->orderBy('Dia')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getArrayResult();
     }
-    */
+
+    public function getDailyClosedData()
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.status = :aStatus')
+            ->setParameter('aStatus', Tickets::STATUS_FINISHED)
+            ->andWhere('MONTH(t.createdAt) = MONTH(NOW())')
+            ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
+            ->select('DAY(t.createdAt) AS Dia, COUNT(t.id) as Quantidade')
+            ->groupBy('Dia')
+            ->orderBy('Dia')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function getMonthlyOpenedData()
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('MONTH(t.createdAt) >= 1')
+            ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
+            ->select('\'opened\' as status, MONTH(t.createdAt) AS months, COUNT(t.id) as qnty')
+            ->groupBy('status, months')
+            ->orderBy('months')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function getMonthlyClosedData()
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.status = :aStatus')
+            ->setParameter('aStatus',  Tickets::STATUS_FINISHED)
+            ->andWhere('MONTH(t.createdAt) >= 1')
+            ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
+            ->select('\'finished\' as status, MONTH(t.closedAt) AS months, COUNT(t.id) as qnty')
+            ->groupBy('status, months')
+            ->orderBy('months')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

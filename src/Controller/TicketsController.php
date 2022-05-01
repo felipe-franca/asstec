@@ -173,8 +173,8 @@ class TicketsController extends DefaultController
     #[Route('/chamados/exportar/{slug}', name: 'app_tickets_export_xls')]
     public function exportTickets(Request $request, string $slug): Response
     {
-        $em       = $this->doctrine->getManager();
-        $now      = new \DateTime('now');
+        $em  = $this->doctrine->getManager();
+        $now = new \DateTime('now');
 
         $fileName = \str_replace([' '], '_',
             \sprintf( 'chamados_%s_%s.xlsx',
