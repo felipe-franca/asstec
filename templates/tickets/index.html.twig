@@ -53,9 +53,15 @@
 						<td>{{ ticket.getResponsable.getUsername}}</td>
 						<td>
 							{% if ticket.getStatus != 'finished' %}
-								<a href={{ path('app_tickets_finish', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
-									<i class="fa-regular fa-circle-check"></i>&nbsp Finalizar
-								</a>
+								{% if ticket.getResponsable != app.user %}
+									<a href={{ path('app_tickets_opened_assume', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
+										<i class="fa-solid fa-handshake"></i>&nbsp Assumir
+									</a>
+								{% else %}
+									<a href={{ path('app_tickets_finish', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
+										<i class="fa-regular fa-circle-check"></i>&nbsp Finalizar
+									</a>
+								{% endif %}
 							{% endif %}
 							<a href={{ path('app_tickets_details', {'id': ticket.getId}) }} class='btn btn-sm bg-blue font-white shadow-sm'>
 								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes

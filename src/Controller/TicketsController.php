@@ -170,6 +170,22 @@ class TicketsController extends DefaultController
         ]);
     }
 
+    #[Route('/chamdos/abertos/assumir/{id}', name: 'app_tickets_opened_assume')]
+    public function assume(Request $request, Tickets $ticket) {
+        $em = $this->doctrine->getManager();
+        try {
+            $ticket->setResponsable($this->getUser());
+            $em->persist($ticket);
+            $em->flush();
+
+            $this->addFlash('success', 'Chamados assumido com sucesso !');
+        } catch(Exception $e) {
+            $this->addFlash('error', 'Ocorreu um erro ao assumiro o chamado. Tente novamente.');
+        }
+
+        return $this->redirectToRoute('app_tickets_opened');
+    }
+
     #[Route('/chamados/exportar/{slug}', name: 'app_tickets_export_xls')]
     public function exportTickets(Request $request, string $slug): Response
     {
