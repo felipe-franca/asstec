@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Client;
 
 use App\Entity\Tickets;
 use App\Controller\DefaultController;
@@ -17,7 +17,8 @@ class ClientTicketsController extends DefaultController
         $tickets = $em->getRepository(Tickets::class)->listByClient($this->getUser());
 
         return $this->render('client_tickets/index.html.twig', [
-            'tickets' => $tickets
+            'tickets' => $tickets,
+            'total'   => count($tickets)
         ]);
     }
 }

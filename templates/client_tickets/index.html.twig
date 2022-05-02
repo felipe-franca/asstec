@@ -1,20 +1,57 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/layout.html.twig' %}
 
-{% block title %}Hello ClientTicketsController!{% endblock %}
-
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/debian/www/asstec_project/src/Controller/ClientTicketsController.php'|file_link(0) }}">src/Controller/ClientTicketsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/debian/www/asstec_project/templates/client_tickets/index.html.twig'|file_link(0) }}">templates/client_tickets/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block page_title %}
+	<i class="fa-solid fa-headset"></i>
+	Meus Chamados
 {% endblock %}
+
+{% block content %}
+	<div class='container-fluid totalizer shadow bg-full-white rounded-3'>
+		<p>{{ total }}</p>
+		<p>Total</p>
+	</div>
+    <br>
+	<div class='container-fluid'>
+		<div class='row justify-content-end'>
+			<div class='col-3'>
+                <a href='#' class='btn btn-sm bg-green font-white shadow-sm'>
+                    <i class="fa-solid fa-circle-plus"></i>&nbsp&nbsp Novo Chamado
+                </a>
+				<a href='#' class='btn btn-sm bg-yellow font-white shadow-sm'>
+					<i class="fa-solid fa-file-export"></i>&nbsp&nbsp Exportar
+				</a>
+			</div>
+		</div>
+	</div>
+    <br>
+	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="">Número</th>
+					<th scope="col">Data Abertura</th>
+                    <th scope='col'>Fechado Em:</th>
+					<th scope="col">Responsável</th>
+					<th scope="col">Status</th>
+					<th scope="col">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for ticket in tickets %}
+					<tr>
+						<td>{{ ticket.getTicketNumber }}</td>
+						<td>{{ ticket.getCreatedAt|date('d/m/Y') }}</td>
+                        <td>{{ ticket.getClosedAt ? ticket.getClosedAt|date('d/m/Y H:i') : '-' }}</td>
+						<td>{{ ticket.getResponsable.getUsername }}</td>
+						<td>{{ ticket.getStatusLabel }}</td>
+						<td>
+							<a href={{ path('app_tickets_details', {'id': ticket.getId}) }} class='btn btn-sm bg-blue font-white shadow-sm'>
+								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock content %}

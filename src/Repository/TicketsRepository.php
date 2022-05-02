@@ -58,6 +58,16 @@ class TicketsRepository extends ServiceEntityRepository
         ;
     }
 
+    public function listByClient(ClientUser $client)
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.client = :aId')
+            ->setParameter('aId', $client->getId())
+            ->orderBy('t.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getDailyOpenedData(ClientUser $clientUser = null)
     {
         $result = $this->createQueryBuilder('t')
