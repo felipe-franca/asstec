@@ -33,7 +33,18 @@ class ClientHomeController extends DefaultController
     private function dailyClosedData()
     {
         $em = $this->doctrine->getManager();
-        return $em->getRepository(Tickets::class)->getDailyClosedData($this->getUser());
+        $result =  $em->getRepository(Tickets::class)->getDailyClosedData($this->getUser());
+
+        // TODO: handle empty results. line 39
+        if (empty($result)) {
+            $now = new \DateTime('now');
+            $result = [
+                'Dia' => $now->format('d'),
+                'Quantidade' => 0,
+            ];
+        }
+
+        return array($result);
     }
 
     private function monthlyData()
