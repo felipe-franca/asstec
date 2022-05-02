@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ClientUser;
 use App\Entity\Tickets;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -57,55 +58,76 @@ class TicketsRepository extends ServiceEntityRepository
         ;
     }
 
-    public function getDailyOpenedData()
+    public function getDailyOpenedData(ClientUser $clientUser = null)
     {
-        return $this->createQueryBuilder('t')
+        $result = $this->createQueryBuilder('t')
             ->where('MONTH(t.createdAt) = MONTH(NOW())')
             ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
             ->select('DAY(t.createdAt) AS Dia, COUNT(t.id) as Quantidade')
             ->groupBy('Dia')
-            ->orderBy('Dia')
-            ->getQuery()
-            ->getArrayResult();
+            ->orderBy('Dia');
+
+        if ($clientUser) {
+            $result->andWhere('t.client  = :aId')
+                ->setParameter('aId', $clientUser->getId());
+        }
+
+
+        return $result->getQuery()->getArrayResult();
     }
 
-    public function getDailyClosedData()
+    public function getDailyClosedData(ClientUser $clientUser = null)
     {
-        return $this->createQueryBuilder('t')
+        $result = $this->createQueryBuilder('t')
             ->where('t.status = :aStatus')
             ->setParameter('aStatus', Tickets::STATUS_FINISHED)
             ->andWhere('MONTH(t.createdAt) = MONTH(NOW())')
             ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
             ->select('DAY(t.createdAt) AS Dia, COUNT(t.id) as Quantidade')
             ->groupBy('Dia')
-            ->orderBy('Dia')
-            ->getQuery()
-            ->getArrayResult();
+            ->orderBy('Dia');
+
+        if ($clientUser) {
+            $result->andWhere('t.client = :aId')
+                ->setParameter('aId', $clientUser->getId());
+        }
+
+        return $result->getQuery()->getArrayResult();
     }
 
-    public function getMonthlyOpenedData()
+    public function getMonthlyOpenedData(ClientUser $clientUser = null)
     {
-        return $this->createQueryBuilder('t')
+        $result = $this->createQueryBuilder('t')
             ->andWhere('MONTH(t.createdAt) >= 1')
             ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
             ->select('\'opened\' as status, MONTH(t.createdAt) AS months, COUNT(t.id) as qnty')
             ->groupBy('status, months')
-            ->orderBy('months')
-            ->getQuery()
-            ->getArrayResult();
+            ->orderBy('months');
+
+        if ($clientUser) {
+            $result->andWhere('t.client = :aId')
+                ->setParameter('aId', $clientUser->getId());
+        }
+
+        return $result->getQuery()->getArrayResult();
     }
 
-    public function getMonthlyClosedData()
+    public function getMonthlyClosedData(ClientUser $clientUser = null)
     {
-        return $this->createQueryBuilder('t')
+        $result = $this->createQueryBuilder('t')
             ->where('t.status = :aStatus')
             ->setParameter('aStatus',  Tickets::STATUS_FINISHED)
             ->andWhere('MONTH(t.createdAt) >= 1')
             ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
             ->select('\'finished\' as status, MONTH(t.closedAt) AS months, COUNT(t.id) as qnty')
             ->groupBy('status, months')
-            ->orderBy('months')
-            ->getQuery()
-            ->getArrayResult();
+            ->orderBy('months');
+
+        if ($clientUser) {
+            $result->andWhere('t.client = :aId')
+                ->setParameter('aId', $clientUser->getId());
+        }
+
+        return $result->getQuery()->getArrayResult();
     }
 }

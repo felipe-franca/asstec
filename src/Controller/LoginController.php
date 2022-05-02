@@ -30,9 +30,11 @@ class LoginController extends DefaultController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        if ($error)
+            $this->addFlash('error', $error->getMessageKey());
+
         return $this->render('login/index.html.twig', [
             'last_username' => $lastUsername,
-            'error' => $error ? $error->getMessageKey() : null,
             'isClient' => false
         ]);
     }

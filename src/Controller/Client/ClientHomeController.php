@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Client;
 
-use App\Entity\User;
+
 use App\Entity\Tickets;
-use App\Controller\Helper;
 use App\Controller\DefaultController;
-use App\Form\TicketOpenType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-class HomeController extends DefaultController
+class ClientHomeController extends DefaultController
 {
-
-    #[Route('/home', name: 'app_home')]
-    #[IsGranted('ROLE_ADMIN')]
-    public function index(Request $request): Response
+    #[Route('/client/home', name: 'app_client_home')]
+    public function index(): Response
     {
         $openedData = $this->dailyOpenedData();
         $closedData = $this->dailyClosedData();
@@ -34,20 +27,20 @@ class HomeController extends DefaultController
     private function dailyOpenedData()
     {
         $em = $this->doctrine->getManager();
-        return $em->getRepository(Tickets::class)->getDailyOpenedData();
+        return $em->getRepository(Tickets::class)->getDailyOpenedData($this->getUser());
     }
 
     private function dailyClosedData()
     {
         $em = $this->doctrine->getManager();
-        return $em->getRepository(Tickets::class)->getDailyClosedData();
+        return $em->getRepository(Tickets::class)->getDailyClosedData($this->getUser());
     }
 
     private function monthlyData()
     {
         $em = $this->doctrine->getManager();
-        $opened = $em->getRepository(Tickets::class)->getMonthlyOpenedData();
-        $closed = $em->getRepository(Tickets::class)->getMonthlyClosedData();
+        $opened = $em->getRepository(Tickets::class)->getMonthlyOpenedData($this->getUser());
+        $closed = $em->getRepository(Tickets::class)->getMonthlyClosedData($this->getUser());
         $measure = array_merge($opened, $closed);
 
         $data = [];

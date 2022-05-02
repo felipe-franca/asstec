@@ -30,15 +30,31 @@ class MenuBuilder
             ]);
         }
 
-        $menu->addChild('Chamados Abertos', [
-            'route' => 'app_tickets_opened',
-            'extras' => ['icon' => 'door-open']
-        ]);
+        if ($this->context->isGranted('ROLE_USER') && !$this->context->isGranted('ROLE_ADMIN')) {
+            $menu->addChild('Home', [
+                'route' => 'app_client_home',
+                'extras' => ['icon' => 'house']
+            ]);
+        }
 
-        $menu->addChild('Chamados Fechados', [
-            'route' => 'app_tickets_closed',
-            'extras' => ['icon' => 'door-closed']
-        ]);
+        if ($this->context->isGranted('ROLE_USER') && !$this->context->isGranted('ROLE_ADMIN')) {
+            $menu->addChild('Meus Chamados', [
+                'route' => 'app_client_tickets',
+                'extras' => ['icon' => 'headset']
+            ]);
+        }
+
+        if ($this->context->isGranted('ROLE_ANALYST')) {
+            $menu->addChild('Chamados Abertos', [
+                'route' => 'app_tickets_opened',
+                'extras' => ['icon' => 'door-open']
+            ]);
+
+            $menu->addChild('Chamados Fechados', [
+                'route' => 'app_tickets_closed',
+                'extras' => ['icon' => 'door-closed']
+            ]);
+        }
 
         if ($this->context->isGranted('ROLE_ADMIN')) {
             $menu->addChild('Aguardando Aprovação', [

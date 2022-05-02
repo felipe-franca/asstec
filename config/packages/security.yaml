@@ -28,7 +28,7 @@ security:
 
         client_login:
             lazy: true
-            pattern: ^/cliente
+            pattern: ^/client
             provider: app_client_user_provider
             form_login:
                 login_path: app_client_login
