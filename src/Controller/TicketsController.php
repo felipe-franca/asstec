@@ -55,8 +55,8 @@ class TicketsController extends DefaultController
 
         return $this->render('tickets/approval_pending.html.twig', [
             'tickets'     => $tickets,
-            'statusLabel' => Tickets::$statuses[Tickets::STATUS_APPROVAL_PENDING],
-            'status'      => Tickets::STATUS_APPROVAL_PENDING,
+            'statusLabel' => Tickets::STATUS_APPROVAL_PENDING,
+            'status'      => Tickets::$statuses[Tickets::STATUS_APPROVAL_PENDING],
             'total'       => count($tickets)
         ]);
     }
@@ -116,6 +116,7 @@ class TicketsController extends DefaultController
 
                 $ticket->setStatus(Tickets::STATUS_FINISHED);
                 $ticket->setClosedAt(new \DateTime('now'));
+                $ticket->setUpdated(new \DateTime('now'));
 
                 $em->persist($ticket);
                 $em->flush();
@@ -171,10 +172,12 @@ class TicketsController extends DefaultController
     }
 
     #[Route('/chamdos/abertos/assumir/{id}', name: 'app_tickets_opened_assume')]
-    public function assume(Request $request, Tickets $ticket) {
+    public function assume(Request $request, Tickets $ticket)
+    {
         $em = $this->doctrine->getManager();
         try {
             $ticket->setResponsable($this->getUser());
+            $ticket->setUpdatedAt(new \DateTime('now'));
             $em->persist($ticket);
             $em->flush();
 

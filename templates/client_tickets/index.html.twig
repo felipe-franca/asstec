@@ -14,10 +14,10 @@
 	<div class='container-fluid'>
 		<div class='row justify-content-end'>
 			<div class='col-3'>
-                <a href='#' class='btn btn-sm bg-green font-white shadow-sm'>
+                <a href={{ path('app_client_ticket_new') }} class='btn btn-sm bg-green font-white shadow-sm'>
                     <i class="fa-solid fa-circle-plus"></i>&nbsp&nbsp Novo Chamado
                 </a>
-				<a href='#' class='btn btn-sm bg-yellow font-white shadow-sm'>
+				<a href={{ path('app_client_tickets_export_xls') }} class='btn btn-sm bg-yellow font-white shadow-sm'>
 					<i class="fa-solid fa-file-export"></i>&nbsp&nbsp Exportar
 				</a>
 			</div>
@@ -32,6 +32,7 @@
 					<th scope="col">Data Abertura</th>
                     <th scope='col'>Fechado Em:</th>
 					<th scope="col">Responsável</th>
+					<th scope='col'>Ultima Atualização</th>
 					<th scope="col">Status</th>
 					<th scope="col">Ações</th>
 				</tr>
@@ -40,10 +41,14 @@
 				{% for ticket in tickets %}
 					<tr>
 						<td>{{ ticket.getTicketNumber }}</td>
-						<td>{{ ticket.getCreatedAt|date('d/m/Y') }}</td>
+						<td>{{ ticket.getCreatedAt|date('d/m/Y H:i') }}</td>
                         <td>{{ ticket.getClosedAt ? ticket.getClosedAt|date('d/m/Y H:i') : '-' }}</td>
-						<td>{{ ticket.getResponsable.getUsername }}</td>
-						<td>{{ ticket.getStatusLabel }}</td>
+						<td>{{ ticket.getResponsable ? ticket.getResponsable.getUsername : '-' }}</td>
+						<td>{{ ticket.getUpdatedAt|date('d/m/Y H:i') }}</td>
+						<td>
+							<span class="badge bg-{% if ticket.getStatus == 'finished' %}success{% elseif ticket.getStatus == 'opened' %}primary{% elseif ticket.getStatus == 'approval_pending' %}danger{% endif %}">
+							{{ ticket.getStatusLabel }}</span>
+						</td>
 						<td>
 							<a href={{ path('app_tickets_details', {'id': ticket.getId}) }} class='btn btn-sm bg-blue font-white shadow-sm'>
 								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes

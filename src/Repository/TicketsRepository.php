@@ -140,4 +140,13 @@ class TicketsRepository extends ServiceEntityRepository
 
         return $result->getQuery()->getArrayResult();
     }
+
+    public function findByClient(ClientUser $client)
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.client = :aId')
+            ->setParameter('aId', $client->getId())
+            ->getQuery()
+            ->getResult();
+    }
 }

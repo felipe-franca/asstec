@@ -3,19 +3,23 @@
 namespace App\Controller\Client;
 
 
+use Exception;
 use App\Entity\Tickets;
 use App\Controller\DefaultController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ClientHomeController extends DefaultController
 {
     #[Route('/client/home', name: 'app_client_home')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $openedData = $this->dailyOpenedData();
         $closedData = $this->dailyClosedData();
         $monthlyData = $this->monthlyData();
+
+        dump($openedData, $closedData, $monthlyData);
 
         return $this->render('home/index.html.twig', [
             'openedData'   => $openedData,

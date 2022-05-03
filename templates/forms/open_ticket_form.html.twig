@@ -7,7 +7,7 @@
 
 {% block content %}
 	<div class='container-fluid shadow bg-full-white rounded-3 padding'>
-        {{ form_start(form, {'action': path('app_ticket_new'), 'method': 'POST'}) }}
+        {{ form_start(form, {'action': isClient is defined ? path('app_client_ticket_new') : path('app_ticket_new'), 'method': 'POST'}) }}
 			{{ form_widget(form) }}
 		{{ form_end(form) }}
 	</div>

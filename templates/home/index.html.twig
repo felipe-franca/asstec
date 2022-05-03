@@ -28,14 +28,14 @@
         var opened = new google.visualization.arrayToDataTable([
 			['Dia', 'Quantidade'],
 			{% for item in openedData %}
-				['{{ item.Dia }}', {{ item.Quantidade }}]
+				['{{ item.Dia }}', {{ item.Quantidade }}],
 			{% endfor %}
 		]);
 
 		var closed = new google.visualization.arrayToDataTable([
 			['Dia', 'Quantidade'],
 			{% for item in closedData %}
-				['{{ item.Dia }}', {{ item.Quantidade }}]
+				['{{ item.Dia }}', {{ item.Quantidade }}],
 			{% endfor %}
 		]);
 
@@ -105,8 +105,6 @@
 				startup: true
 			},
 		};
-
-
 
         var chart0 = new google.visualization.ColumnChart(document.getElementById('chart_div0'));
         var chart1 = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
