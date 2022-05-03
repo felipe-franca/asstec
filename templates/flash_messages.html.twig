@@ -1,6 +1,6 @@
 {% if app.session.getFlashBag.has('success') %}
 	{% for message in app.session.flashbag.get('success') %}
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<div class="alert alert-success alert-dismissible fade show shadow" role="alert">
 			<i class="fa-regular fa-circle-check"></i> {{ message|raw }}
 		</div>
 	{% endfor %}
@@ -8,7 +8,7 @@
 
 {% if app.session.flashbag.has('warning') %}
 	{% for message in app.session.flashbag.get('warning') %}
-		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<div class="alert alert-warning alert-dismissible fade show shadow" role="alert">
 			<i class="fa-solid fa-triangle-exclamation"></i> {{ message|raw  }}
 		</div>
 	{% endfor %}
@@ -16,7 +16,7 @@
 
 {% if app.session.getFlashBag.has('error') %}
 	{% for message in app.session.flashbag.get('error') %}
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<div class="alert alert-danger alert-dismissible fade show shadow" role="alert">
 			<i class="fa-solid fa-triangle-exclamation"></i> {{ message|raw }}
 		</div>
 	{% endfor %}
