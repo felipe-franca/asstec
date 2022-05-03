@@ -26,7 +26,7 @@
 				<tr>
 					<th>Responsável:
 					</th>
-					<td>{{ ticket.getResponsable.getUsername }}</td>
+					<td>{{ ticket.getResponsable ? ticket.getResponsable.getUsername : '-'}}</td>
 					<th></th>
 					<td></td>
 					<th>Status:

@@ -45,7 +45,7 @@
 							<a href={{ path('app_ticket_approve', {'id': ticket.getId}) }} class='btn btn-sm bg-green font-white shadow-sm'>
 								<i class="fa-regular fa-circle-check"></i>&nbsp Approvar
 							</a>
-							<a class='btn btn-sm bg-blue font-white shadow-sm'>
+							<a href={{ path('app_tickets_details', {'id': ticket.getId}) }} class='btn btn-sm bg-blue font-white shadow-sm'>
 								<i class="fa-solid fa-circle-info"></i>&nbsp Detalhes
 							</a>
 						</td>
