@@ -83,7 +83,7 @@ class TicketsRepository extends ServiceEntityRepository
         }
 
 
-        return $result->getQuery()->getArrayResult();
+        return $result->getQuery()->getResult();
     }
 
     public function getDailyClosedData(ClientUser $clientUser = null)
@@ -91,9 +91,9 @@ class TicketsRepository extends ServiceEntityRepository
         $result = $this->createQueryBuilder('t')
             ->where('t.status = :aStatus')
             ->setParameter('aStatus', Tickets::STATUS_FINISHED)
-            ->andWhere('MONTH(t.createdAt) = MONTH(NOW())')
-            ->andWhere('YEAR(t.createdAt) = YEAR(NOW())')
-            ->select('DAY(t.createdAt) AS Dia, COUNT(t.id) as Quantidade')
+            ->andWhere('MONTH(t.closedAt) = MONTH(NOW())')
+            ->andWhere('YEAR(t.closedAt) = YEAR(NOW())')
+            ->select('DAY(t.closedAt) AS Dia, COUNT(t.id) as Quantidade')
             ->groupBy('Dia')
             ->orderBy('Dia');
 
@@ -102,7 +102,7 @@ class TicketsRepository extends ServiceEntityRepository
                 ->setParameter('aId', $clientUser->getId());
         }
 
-        return $result->getQuery()->getArrayResult();
+        return $result->getQuery()->getResult();
     }
 
     public function getMonthlyOpenedData(ClientUser $clientUser = null)

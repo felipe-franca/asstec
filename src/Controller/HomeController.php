@@ -34,13 +34,16 @@ class HomeController extends DefaultController
     private function dailyOpenedData()
     {
         $em = $this->doctrine->getManager();
-        return $em->getRepository(Tickets::class)->getDailyOpenedData();
+        $result = $em->getRepository(Tickets::class)->getDailyOpenedData();
+        return empty($result) ? $this->mockResult() : $result;
     }
 
     private function dailyClosedData()
     {
         $em = $this->doctrine->getManager();
-        return $em->getRepository(Tickets::class)->getDailyClosedData();
+        $result = $em->getRepository(Tickets::class)->getDailyClosedData();
+
+        return empty($result) ? $this->mockResult() : $result;
     }
 
     private function monthlyData()
@@ -74,5 +77,14 @@ class HomeController extends DefaultController
         }
 
         return $data;
+    }
+
+    public static function mockResult()
+    {
+        $now = new \DateTime('now');
+        return $result = [
+                'Dia' => $now->format('d'),
+                'Quantidade' => 0,
+            ];
     }
 }

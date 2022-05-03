@@ -6,6 +6,7 @@ namespace App\Controller\Client;
 use Exception;
 use App\Entity\Tickets;
 use App\Controller\DefaultController;
+use App\Controller\HomeController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,8 +20,6 @@ class ClientHomeController extends DefaultController
         $closedData = $this->dailyClosedData();
         $monthlyData = $this->monthlyData();
 
-        dump($openedData, $closedData, $monthlyData);
-
         return $this->render('home/index.html.twig', [
             'openedData'   => $openedData,
             'closedData'   => $closedData,
@@ -31,24 +30,15 @@ class ClientHomeController extends DefaultController
     private function dailyOpenedData()
     {
         $em = $this->doctrine->getManager();
-        return $em->getRepository(Tickets::class)->getDailyOpenedData($this->getUser());
+        $result = $em->getRepository(Tickets::class)->getDailyOpenedData($this->getUser());
+        return empty($result) ? HomeController::mockResult() : $result;
     }
 
     private function dailyClosedData()
     {
         $em = $this->doctrine->getManager();
         $result =  $em->getRepository(Tickets::class)->getDailyClosedData($this->getUser());
-
-        // TODO: handle empty results. line 39
-        if (empty($result)) {
-            $now = new \DateTime('now');
-            $result = [
-                'Dia' => $now->format('d'),
-                'Quantidade' => 0,
-            ];
-        }
-
-        return array($result);
+        return empty($result) ? HomeController::mockResult() : $result;
     }
 
     private function monthlyData()
