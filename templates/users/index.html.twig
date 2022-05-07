@@ -47,7 +47,7 @@
 						<td>{{ entity.getId }}</td>
 						<td>{{ entity.getUserName }}</td>
 						<td>{{ entity.getEmail }}</td>
-						<td>{{ entity.getAddress.__toString }}</td>
+						<td>{{ entity.getAddress ? entity.getAddress.__toString : '-' }}</td>
 						<td>{{ entity.getPhonesListString }}</td>
 						<td>
 							<a href="{{ path(label == 'techs' ? 'app_techs_delete' : 'customer_delete', {'id': entity.getId}) }}" class='btn btn-sm bg-red font-white'>
