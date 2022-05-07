@@ -45,7 +45,7 @@ class ClientController extends DefaultController
 
                 $hashedPassword = $userPasswordHasher->hashPassword(
                     $newClient,
-                    'wpsbrasil'
+                    'help@tech'
                 );
 
                 $client->setPassword($hashedPassword);

@@ -50,7 +50,7 @@ class UsersController extends DefaultController
 
                 $hashedPassword = $userPasswordHasher->hashPassword(
                     $newUser,
-                    'wpsbrasil'
+                    'help@tech'
                 );
                 $newUser->setPassword($hashedPassword);
 
