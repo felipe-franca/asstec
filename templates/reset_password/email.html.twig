@@ -1,0 +1,10 @@
+<h2>Ola !</h2>
+
+<p>Para alterar sua senha, por favor visite o link abaixo: </p>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Esse link expira em: {{ resetToken.expiresAt|date('d/m/Y H:i') }}.</p>
+<br>
+<p>Atenciosamente / Yours sincerely,</p>
+<p>Equipe HelpTech !</p>

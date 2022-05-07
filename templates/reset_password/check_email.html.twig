@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email de redefinição de senha enviado{% endblock %}
+
+{% block body %}
+    <div class='container-fluid login-container pt-5'>
+        <div class='container-sm padding shadow rounded bg-light'>
+            {% include "flash_messages.html.twig" %}
+            <p>
+                Se existir uma conta que corresponda ao seu e-mail, foi enviado um e-mail que contém um link que você pode usar para redefinir sua senha.
+                Este link irá expirar em {{ resetToken.expiresAt|date('d/m/Y H:i') }}.
+            </p>
+            <p>Se você não receber um e-mail, verifique sua caixa de spam ou <a href="{{ path('app_forgot_password_request') }}" class="link-primary">Tente novamente <i class="fa-solid fa-hand-point-left"></i></a>.</p>
+        </div>
+    </div>
+{% endblock %}
