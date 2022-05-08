@@ -62,7 +62,7 @@ class ResetPasswordController extends AbstractController
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
             $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
         }
-        dump($resetToken);
+
         return $this->render('reset_password/check_email.html.twig', [
             'resetToken' => $resetToken,
         ]);
@@ -194,7 +194,7 @@ class ResetPasswordController extends AbstractController
             ->from(new Address('helptechfmu@gmail.com', 'Equipe HelpTech'))
             ->to($user->getEmail())
             ->subject('Solicitação de alteração de senha')
-            ->html($this->renderView($user->getOccupation(User::CLIENT_OCCUPATION)
+            ->html($this->renderView($user->getOccupation() == User::CLIENT_OCCUPATION
                 ? 'reset_password/client_email.html.twig'
                 :'reset_password/email.html.twig',
                 ['resetToken' => $resetToken]));
