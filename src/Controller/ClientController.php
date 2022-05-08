@@ -75,7 +75,7 @@ class ClientController extends DefaultController
             $em->getRepository(User::class)->remove($user);
             $this->addFlash('success', 'Cliente removido com sucesso !');
         } catch(\Exception $e) {
-            $this->addFlash('danger', $e->getMessage());
+            $this->addFlash('error', $e->getMessage());
         }
 
         return $this->redirectToRoute('customers');

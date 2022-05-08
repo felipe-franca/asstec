@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'responsable', targetEntity: Tickets::class)]
     private $tickets;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Tickets::class, cascade: ['remove'])]
+    private $clientTickets;
+
     #[ORM\Column(type: 'string', length: 20)]
     private $occupation;
 
@@ -222,5 +225,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return implode(' - ' , $this->userPhones->map(function (UserPhone $phone) {
             return $phone->getPhone()->getNumber();
         })->toArray());
+    }
+
+    /**
+     * Get the value of clientTickets
+     */
+    public function getClientTickets()
+    {
+        return $this->clientTickets;
+    }
+
+    /**
+     * Set the value of clientTickets
+     *
+     * @return  self
+     */
+    public function setClientTickets($clientTickets)
+    {
+        $this->clientTickets = $clientTickets;
+
+        return $this;
     }
 }

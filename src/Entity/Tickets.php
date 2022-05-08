@@ -49,8 +49,7 @@ class Tickets
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
     private $responsable;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'clientTickets' )]
     private $client;
 
     #[ORM\Column(type: 'string', length: 30)]
