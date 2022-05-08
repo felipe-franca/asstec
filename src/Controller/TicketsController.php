@@ -5,6 +5,7 @@ namespace App\Controller;
 use Exception;
 use App\Entity\Tickets;
 use App\Form\TicketOpenType;
+use App\Services\MailerService;
 use App\Form\TicketsFinishType;
 use App\Form\TicketApprovalType;
 use App\Controller\DefaultController;
@@ -121,6 +122,10 @@ class TicketsController extends DefaultController
                 $em->persist($ticket);
                 $em->flush();
 
+                $template = $this->renderView('mailer/index.html.twig', ['ticket' => $ticket]);
+                $mailer = new MailerService($template, 'Chamado Encerrado');
+                $mailer->newTicketEmail($ticket);
+
                 $this->addFlash('success', 'Chamado encerrado com sucesso.');
                 return $this->redirectToRoute('app_tickets_closed');
             } catch(Exception $e) {
@@ -171,7 +176,7 @@ class TicketsController extends DefaultController
         ]);
     }
 
-    #[Route('/chamdos/abertos/assumir/{id}', name: 'app_tickets_opened_assume')]
+    #[Route('/chamados/abertos/assumir/{id}', name: 'app_tickets_opened_assume')]
     public function assume(Request $request, Tickets $ticket)
     {
         $em = $this->doctrine->getManager();

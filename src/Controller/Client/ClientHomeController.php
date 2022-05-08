@@ -72,12 +72,4 @@ class ClientHomeController extends DefaultController
 
         return $data;
     }
-
-    #[Route('/client/chamados/detalhes/{id}', name: 'app_client_tickets_details')]
-    public function ticketDetails(Request $request, Tickets $ticket): Response
-    {
-        return $this->render('tickets/detail.html.twig', [
-            'ticket' => $ticket
-        ]);
-    }
 }

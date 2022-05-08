@@ -65,6 +65,14 @@ class ClientTicketsController extends DefaultController
         ]);
     }
 
+    #[Route('/client/chamados/detalhes/{id}', name: 'app_client_tickets_details')]
+    public function ticketDetails(Request $request, Tickets $ticket): Response
+    {
+        return $this->render('tickets/detail.html.twig', [
+            'ticket' => $ticket
+        ]);
+    }
+
     #[Route('/client/chamados/exportar', name: 'app_client_tickets_export_xls')]
     public function exportTickets(Request $request): Response
     {
