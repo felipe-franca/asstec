@@ -35,7 +35,7 @@ class HomeController extends DefaultController
     {
         $em = $this->doctrine->getManager();
         $result = $em->getRepository(Tickets::class)->getDailyOpenedData();
-        return empty($result) ? $this->mockResult() : $result;
+        return empty($result) ? [$this->mockResult()] : $result;
     }
 
     private function dailyClosedData()
@@ -43,7 +43,7 @@ class HomeController extends DefaultController
         $em = $this->doctrine->getManager();
         $result = $em->getRepository(Tickets::class)->getDailyClosedData();
 
-        return empty($result) ? $this->mockResult() : $result;
+        return empty($result) ? [$this->mockResult()] : $result;
     }
 
     private function monthlyData()

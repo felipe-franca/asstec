@@ -19,9 +19,6 @@ class UserPhone
     #[ORM\ManyToOne(targetEntity: Phone::class, inversedBy: 'userPhones', fetch: "EAGER")]
     private $phone;
 
-    #[ORM\ManyToOne(targetEntity: ClientUser::class, inversedBy: 'userPhones')]
-    private $client;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -47,18 +44,6 @@ class UserPhone
     public function setPhone(?Phone $phone): self
     {
         $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getClient(): ?ClientUser
-    {
-        return $this->client;
-    }
-
-    public function setClient(?ClientUser $client): self
-    {
-        $this->client = $client;
 
         return $this;
     }

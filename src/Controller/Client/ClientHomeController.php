@@ -19,7 +19,6 @@ class ClientHomeController extends DefaultController
         $openedData = $this->dailyOpenedData();
         $closedData = $this->dailyClosedData();
         $monthlyData = $this->monthlyData();
-
         return $this->render('home/index.html.twig', [
             'openedData'   => $openedData,
             'closedData'   => $closedData,
@@ -31,14 +30,14 @@ class ClientHomeController extends DefaultController
     {
         $em = $this->doctrine->getManager();
         $result = $em->getRepository(Tickets::class)->getDailyOpenedData($this->getUser());
-        return empty($result) ? HomeController::mockResult() : $result;
+        return empty($result) ? [HomeController::mockResult()] : $result;
     }
 
     private function dailyClosedData()
     {
         $em = $this->doctrine->getManager();
         $result =  $em->getRepository(Tickets::class)->getDailyClosedData($this->getUser());
-        return empty($result) ? HomeController::mockResult() : $result;
+        return empty($result) ? [HomeController::mockResult()] : $result;
     }
 
     private function monthlyData()

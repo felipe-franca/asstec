@@ -65,9 +65,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function listTechs()
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.occupation = :occupation')
-            ->setParameter('occupation', User::TECH_OCCUPATION)
+            ->andWhere('u.occupation = :aOccupation')
+            ->setParameter('aOccupation', User::TECH_OCCUPATION)
             ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function listClients()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.occupation = :aOccupation')
+            ->setParameter('aOccupation', User::CLIENT_OCCUPATION)
+            ->orderBy('c.username', 'ASC')
             ->getQuery()
             ->getResult()
         ;

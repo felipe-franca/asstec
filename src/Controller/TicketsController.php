@@ -116,7 +116,7 @@ class TicketsController extends DefaultController
 
                 $ticket->setStatus(Tickets::STATUS_FINISHED);
                 $ticket->setClosedAt(new \DateTime('now'));
-                $ticket->setUpdated(new \DateTime('now'));
+                $ticket->setUpdatedAt(new \DateTime('now'));
 
                 $em->persist($ticket);
                 $em->flush();

@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\ClientUser;
+use App\Entity\User;
 use App\Entity\Tickets;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Tickets|null find($id, $lockMode = null, $lockVersion = null)
@@ -58,7 +58,7 @@ class TicketsRepository extends ServiceEntityRepository
         ;
     }
 
-    public function listByClient(ClientUser $client)
+    public function listByClient(User $client)
     {
         return $this->createQueryBuilder('t')
             ->where('t.client = :aId')
@@ -68,7 +68,7 @@ class TicketsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getDailyOpenedData(ClientUser $clientUser = null)
+    public function getDailyOpenedData(User $clientUser = null)
     {
         $result = $this->createQueryBuilder('t')
             ->where('MONTH(t.createdAt) = MONTH(NOW())')
@@ -86,7 +86,7 @@ class TicketsRepository extends ServiceEntityRepository
         return $result->getQuery()->getResult();
     }
 
-    public function getDailyClosedData(ClientUser $clientUser = null)
+    public function getDailyClosedData(User $clientUser = null)
     {
         $result = $this->createQueryBuilder('t')
             ->where('t.status = :aStatus')
@@ -105,7 +105,7 @@ class TicketsRepository extends ServiceEntityRepository
         return $result->getQuery()->getResult();
     }
 
-    public function getMonthlyOpenedData(ClientUser $clientUser = null)
+    public function getMonthlyOpenedData(User $clientUser = null)
     {
         $result = $this->createQueryBuilder('t')
             ->andWhere('MONTH(t.createdAt) >= 1')
@@ -122,7 +122,7 @@ class TicketsRepository extends ServiceEntityRepository
         return $result->getQuery()->getArrayResult();
     }
 
-    public function getMonthlyClosedData(ClientUser $clientUser = null)
+    public function getMonthlyClosedData(User $clientUser = null)
     {
         $result = $this->createQueryBuilder('t')
             ->where('t.status = :aStatus')
@@ -141,7 +141,7 @@ class TicketsRepository extends ServiceEntityRepository
         return $result->getQuery()->getArrayResult();
     }
 
-    public function findByClient(ClientUser $client)
+    public function findByClient(User $client)
     {
         return $this->createQueryBuilder('t')
             ->where('t.client = :aId')

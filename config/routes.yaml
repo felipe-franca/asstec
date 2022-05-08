@@ -11,5 +11,5 @@ app_logout:
     methods: GET
 
 client_logout:
-    path: /cliente/login
+    path: /client/login
     methods: GET

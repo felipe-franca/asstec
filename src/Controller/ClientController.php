@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\ClientUser;
+use App\Form\NewClientType;
 use App\Controller\DefaultController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\ClientUser;
-use App\Form\NewClientType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ClientController extends DefaultController
@@ -19,7 +20,7 @@ class ClientController extends DefaultController
     {
         $em = $this->doctrine->getManager();
 
-        $clients = $em->getRepository(ClientUser::class)->listClients();
+        $clients = $em->getRepository(User::class)->listClients();
 
         return $this->render('users/index.html.twig', [
             'userEntity' => $clients,
@@ -34,7 +35,7 @@ class ClientController extends DefaultController
     {
         $em = $this->doctrine->getManager();
 
-        $client = new ClientUser();
+        $client = new User();
         $form = $this->createForm(NewClientType::class, $client);
 
         $form->handleRequest($request);
@@ -47,9 +48,9 @@ class ClientController extends DefaultController
                     $newClient,
                     'help@tech'
                 );
-
-                $client->setPassword($hashedPassword);
-                $client->setRoles(['ROLE_USER']);
+                $newClient->setOccupation(User::CLIENT_OCCUPATION);
+                $newClient->setPassword($hashedPassword);
+                $newClient->setRoles(['ROLE_USER']);
 
                 $em->persist($newClient);
                 $em->flush();
@@ -72,7 +73,7 @@ class ClientController extends DefaultController
     {
         $em = $this->doctrine->getManager();
         try {
-            $em->getRepository(ClientUser::class)->remove($user);
+            $em->getRepository(User::class)->remove($user);
             $this->addFlash('success', 'Cliente removido com sucesso !');
         } catch(\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
@@ -82,7 +83,7 @@ class ClientController extends DefaultController
     }
 
     #[Route('/cli/editar/{id}', name: 'customer_edit')]
-    public function editCustomer(Request $request, ClientUser $user): Response
+    public function editCustomer(Request $request, User $user): Response
     {
         $em = $this->doctrine->getManager();
 

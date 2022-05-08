@@ -49,7 +49,7 @@ class Tickets
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
     private $responsable;
 
-    #[ORM\ManyToOne(targetEntity: ClientUser::class, inversedBy: 'tickets')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
     private $client;
 
@@ -197,12 +197,12 @@ class Tickets
         return $this;
     }
 
-    public function getClient(): ?ClientUser
+    public function getClient(): ?User
     {
         return $this->client;
     }
 
-    public function setClient(?ClientUser $client): self
+    public function setClient(?User $client): self
     {
         $this->client = $client;
 

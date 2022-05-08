@@ -17,7 +17,7 @@ security:
                 property: email
         app_client_user_provider:
             entity:
-                class: App\Entity\ClientUser
+                class: App\Entity\User
                 property: email
         users_in_memory: { memory: null }
 
@@ -66,13 +66,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/home, roles: ROLE_ADMIN }
-        - { path: ^/waiting, roles: ROLE_ADMIN }
-        - { path: ^/clients, roles: ROLE_ADMIN }
-        - { path: ^/techcnical, roles: ROLE_ADMIN }
-        - { path: ^/opened, roles: ROLE_ANALYST }
-        - { path: ^/closed, roles: ROLE_ANALYST }
-        - { path: ^/cliente/home, roles: ROLE_USER }
+        - { path: ^/home$, roles: ROLE_ADMIN }
+        - { path: ^/chamados/abertos, roles: [ROLE_ADMIN, ROLE_ANALYST] }
+        - { path: ^/chamados/fechados, roles: [ROLE_ADMIN, ROLE_ANALYST] }
+        - { path: ^/chamados/aguardando-aprovacao, roles: ROLE_ADMIN }
+        - { path: ^/cli$, roles: ROLE_ADMIN }
+        - { path: ^/cli$, roles: ROLE_ADMIN }
+        - { path: ^/cli/, roles: ROLE_ADMIN }
+        - { path: ^/tecnicos, roles: ROLE_ADMIN }
+        - { path: ^/client/home, roles: ROLE_USER }
 
 when@test:
     security:
