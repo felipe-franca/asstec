@@ -72,7 +72,8 @@ security:
         - { path: ^/cli$, roles: ROLE_ADMIN }
         - { path: ^/cli/, roles: ROLE_ADMIN }
         - { path: ^/tecnicos, roles: ROLE_ADMIN }
-        - { path: ^/client/home, roles: ROLE_USER }
+        - { path: ^/client/home, roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
+        - { path: ^/client/chamados, roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
 
 when@test:
     security:
