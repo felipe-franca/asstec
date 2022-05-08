@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Tickets;
-use App\Entity\ClientUser;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,10 +25,12 @@ class TicketOpenType extends AbstractType
             ])
             ->add('client', EntityType::class, [
                 'label' => 'Cliente: ',
-                'class'         => ClientUser::class,
+                'class'         => User::class,
                 'required'      => true,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('u')
+                        ->where('u.occupation = :occupation')
+                        ->setParameter('occupation', User::CLIENT_OCCUPATION)
                         ->orderBy('u.username', 'ASC');
                 },
                 'choice_label'  => 'username',
@@ -70,7 +71,7 @@ class TicketOpenType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Ticke%sts::class,
+            'data_class' => Tickets::class,
         ]);
     }
 }

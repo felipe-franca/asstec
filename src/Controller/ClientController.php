@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\ClientUser;
 use App\Form\NewClientType;
 use App\Controller\DefaultController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +68,7 @@ class ClientController extends DefaultController
     }
 
     #[Route('/cli/delete/{id}', name: 'customer_delete')]
-    public function removeCustomer(Request $request, ClientUser $user): Response
+    public function removeCustomer(Request $request, User $user): Response
     {
         $em = $this->doctrine->getManager();
         try {

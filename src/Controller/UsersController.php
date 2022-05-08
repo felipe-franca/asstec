@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\NewUserType;
 use App\Controller\DefaultController;
-use App\Entity\ClientUser;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,7 +144,7 @@ class UsersController extends DefaultController
 
         $users = $userType == 'tech' ?
             $em->getRepository(User::class)->listTechs()
-            : $em->getRepository(ClientUser::class)->listClients();
+            : $em->getRepository(User::class)->listClients();
 
         $spreedsheet = new Spreadsheet();
         $sheet       = $spreedsheet->getActiveSheet();
