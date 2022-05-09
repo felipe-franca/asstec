@@ -44,7 +44,7 @@ class UsersController extends DefaultController
             try {
                 $newUser = $form->getData();
                 $newUser->setRoles(
-                    $newUser->getOccupation() == 'ROLE_ADMIN' ? ['ROLE_ADMIN'] : ['ROLE_ANALIST']
+                    $newUser->getOccupation() == 'ROLE_ADMIN' ? ['ROLE_ADMIN'] : ['ROLE_ANALYST']
                 );
 
                 $hashedPassword = $userPasswordHasher->hashPassword(
@@ -96,7 +96,7 @@ class UsersController extends DefaultController
             try {
                 $newUser = $form->getData();
                 $newUser->setRoles(
-                    $newUser->getOccupation() == 'ROLE_ADMIN' ? ['ROLE_ADMIN'] : ['ROLE_ANALIST']
+                    $newUser->getOccupation() == 'ROLE_ADMIN' ? ['ROLE_ADMIN'] : ['ROLE_ANALYST']
                 );
 
                 $em->persist($newUser);

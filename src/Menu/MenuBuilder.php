@@ -30,14 +30,14 @@ class MenuBuilder
             ]);
         }
 
-        if ($this->context->isGranted('ROLE_USER') && !$this->context->isGranted('ROLE_ADMIN')) {
+        if ($this->context->isGranted('ROLE_USER') && !$this->context->isGranted(['ROLE_ADMIN']) && !$this->context->isGranted('ROLE_ANALYST')) {
             $menu->addChild('Home', [
                 'route' => 'app_client_home',
                 'extras' => ['icon' => 'house']
             ]);
         }
 
-        if ($this->context->isGranted('ROLE_USER') && !$this->context->isGranted('ROLE_ADMIN')) {
+        if ($this->context->isGranted('ROLE_USER') && !$this->context->isGranted('ROLE_ADMIN') && !$this->context->isGranted('ROLE_ANALYST')) {
             $menu->addChild('Meus Chamados', [
                 'route' => 'app_client_tickets',
                 'extras' => ['icon' => 'headset']
