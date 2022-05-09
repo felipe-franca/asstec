@@ -1,3 +1,5 @@
+{% set months = { 1: 'Jan', 2: 'Fev', 3: 'Mar', 4: 'Abr', 5: 'Mai', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Set', 10: 'Ago', 11: 'Nov', 12: 'Dez' } %}
+
 {% extends 'layout/layout.html.twig' %}
 
 {% block page_title %} <i class="fa-solid fa-house"></i> Home{% endblock %}
@@ -42,7 +44,7 @@
 		var monthly = new google.visualization.arrayToDataTable([
 			['Mês', 'Abertos', 'Fechados'],
 			 {% for item in monthlyData %}
-				['{{ item.month }}', {{ item.opened }}, {{ item.finished }}],
+				['{{ months[item.month] }}', {{ item.opened }}, {{ item.finished }}],
 			{% endfor %}
 		]);
 
