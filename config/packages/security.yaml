@@ -65,10 +65,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/home$, roles: ROLE_ADMIN }
-        - { path: ^/chamados/abertos, roles: [ROLE_ADMIN, ROLE_ANALYST] }
-        - { path: ^/chamados/fechados, roles: [ROLE_ADMIN, ROLE_ANALYST] }
+        - { path: ^/chamados, roles: [ROLE_ADMIN, ROLE_ANALYST] }
+        - { path: ^/chamados, roles: [ROLE_ADMIN, ROLE_ANALYST] }
         - { path: ^/chamados/aguardando-aprovacao, roles: ROLE_ADMIN }
-        - { path: ^/cli$, roles: ROLE_ADMIN }
         - { path: ^/cli$, roles: ROLE_ADMIN }
         - { path: ^/cli/, roles: ROLE_ADMIN }
         - { path: ^/tecnicos, roles: ROLE_ADMIN }
