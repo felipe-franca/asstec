@@ -15,26 +15,26 @@
 					<br>
 					<div>
 						<i class="fa-solid fa-timeline"></i>
-						<small>Distributed Support</small>
+						<small>Suporte distribuído</small>
 					</div>
 					<br>
 					<div>
 						<i class="fa-solid fa-chart-simple"></i>
-						<small>General Reports</small>
+						<small>Relatórios Gerais</small>
 					</div>
 					<br>
 					<div>
 						<i class="fa-solid fa-file-waveform"></i>
-						<small>Dynamic Statuses</small>
+						<small>Status dinâmicos</small>
 					</div>
 				</div>
 				<div class='form form-control'>
 					<h3>{% if isClient %}
-							<i class="fa-solid fa-user"></i> Client
+							<i class="fa-solid fa-user"></i> Portal do Cliente
 						{% else %}
-							<i class="fa-solid fa-user-lock"></i> Admin
-						{% endif %} Portal</h3>
-					<h4>Sign In your Account</h4>
+							<i class="fa-solid fa-user-lock"></i> Portal do Administrador
+						{% endif %}</h3>
+					<h4>Faça login na sua conta</h4>
 					<br>
 					<form action="{{ path( isClient ? 'app_client_login' : 'login') }}" method='POST'>
 						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">

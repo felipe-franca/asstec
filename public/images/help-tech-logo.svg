@@ -12,8 +12,8 @@
    viewBox="0 0 190.00002 107"
    version="1.1"
    id="svg8"
-   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
-   sodipodi:docname="help-tech-logo.svg">
+   sodipodi:docname="help-tech-logo.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <defs
      id="defs2">
     <filter
@@ -38,7 +38,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="629.31462"
+     inkscape:cx="525.0289"
      inkscape:cy="405.99999"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -89,14 +89,12 @@
        height="19.683264"
        x="95.153625"
        y="17.359655" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.951743;stroke-miterlimit:4.07143;stroke-dasharray:none"
+    <path
        id="rect859-6"
-       width="47.455013"
-       height="26.772722"
-       x="-101.66381"
-       y="122.38403"
-       transform="matrix(-0.00740892,-0.99997255,0.99999957,-9.2400555e-4,0,0)" />
+       style="opacity:0.998;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.05967;stroke-miterlimit:4.07143;stroke-dasharray:none"
+       transform="matrix(-0.00593575,-0.99998238,0.99999933,-0.00115335,0,0)"
+       d="m -53.280109,123.8565 c 7.390675,0 13.340568,5.94989 13.340568,13.34057 v 0 c 0,7.39068 -5.949893,13.34057 -13.340568,13.34057 -51.937111,-0.30828 -45.166955,3.96333 -45.689518,-13.34057 v 0 c 0.02151,-18.64623 -2.689953,-13.34057 45.689518,-13.34057 z"
+       sodipodi:nodetypes="csscccc" />
     <ellipse
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.05274;stroke-miterlimit:4.07143;stroke-dasharray:none"
        id="path933"
@@ -104,12 +102,5 @@
        cy="57.477249"
        rx="6.9726844"
        ry="7.0480318" />
-    <ellipse
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4.07143;stroke-dasharray:none"
-       id="path935"
-       cx="136.25713"
-       cy="55.00552"
-       rx="13.357123"
-       ry="15.083936" />
   </g>
 </svg>

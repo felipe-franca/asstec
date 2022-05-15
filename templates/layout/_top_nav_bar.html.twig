@@ -11,7 +11,7 @@
 		</a>
 		<ul class="dropdown-menu shadow">
 			<li>
-				<a class="dropdown-item" href="{{path(is_granted('ROLE_USER') ? 'client_logout' : 'app_logout') }}">
+				<a class="dropdown-item" href="{{path(is_granted('ROLE_ANALYST') ? 'app_logout' : 'client_logout') }}">
 				<i class="fa-solid fa-right-from-bracket"></i>&nbsp&nbsp Log Out</a>
 			</li>
 			<li>
