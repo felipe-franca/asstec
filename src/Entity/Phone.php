@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\PhoneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
@@ -18,13 +17,8 @@ class Phone
     #[ORM\Column(type: 'string', length: 15)]
     private $number;
 
-    #[ORM\OneToMany(mappedBy: 'phone', targetEntity: UserPhone::class)]
-    private $userPhones;
-
-    public function __construct()
-    {
-        $this->userPhones = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:'phone', cascade: ['persist', 'remove'])]
+    private $user;
 
     public function getId(): ?int
     {
@@ -43,32 +37,14 @@ class Phone
         return $this;
     }
 
-    /**
-     * @return Collection<int, UserPhone>
-     */
-    public function getUserPhones(): Collection
+    public function getUser()
     {
-        return $this->userPhones;
+        return $this->user;
     }
 
-    public function addUserPhone(UserPhone $userPhone): self
+    public function setUser($user)
     {
-        if (!$this->userPhones->contains($userPhone)) {
-            $this->userPhones[] = $userPhone;
-            $userPhone->setPhone($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserPhone(UserPhone $userPhone): self
-    {
-        if ($this->userPhones->removeElement($userPhone)) {
-            // set the owning side to null (unless already changed)
-            if ($userPhone->getPhone() === $this) {
-                $userPhone->setPhone(null);
-            }
-        }
+        $this->user = $user;
 
         return $this;
     }

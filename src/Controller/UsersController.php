@@ -55,7 +55,12 @@ class UsersController extends DefaultController
 
                 $em->persist($newUser);
                 $em->flush();
-
+                
+                foreach($newUser->getPhone() as $phone) {
+                    $phone->setUser($newUser);
+                    $em->persist($phone);
+                    $em->flush();
+                }
             } catch(\Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('app_techs_new');

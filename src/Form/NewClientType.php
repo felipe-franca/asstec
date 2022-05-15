@@ -3,17 +3,15 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\PhoneType;
+use App\Form\AddressType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Form\AddressType;
-use App\Form\PhoneType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Entity\Phone;
 
 class NewClientType extends AbstractType
 {
@@ -36,13 +34,21 @@ class NewClientType extends AbstractType
                 'label' => 'Endereço',
                 'attr'  => ['class' => 'row g-3 col-form-label']
             ])
+            ->add('phone', CollectionType::class, [
+                'label' => 'Telefones: ',
+                'attr' => ['maxlength' => 15],
+                'entry_type'    => PhoneType::class,
+                'entry_options' => ['label' => false],
+                'allow_add'     => true,
+                'allow_delete'  => true,
+                'by_reference'  => false
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Cadastrar',
                 'attr'  => [
-                    'class' => 'btn bg-green font-white'
+                    'class' => 'btn bg-green font-white mt-2 float-end w-25 shadow'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

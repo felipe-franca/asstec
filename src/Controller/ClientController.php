@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\NewClientType;
 use App\Controller\DefaultController;
+use App\Entity\Phone;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,12 +48,20 @@ class ClientController extends DefaultController
                     $newClient,
                     'help@tech'
                 );
+                
                 $newClient->setOccupation(User::CLIENT_OCCUPATION);
                 $newClient->setPassword($hashedPassword);
                 $newClient->setRoles(['ROLE_USER']);
 
                 $em->persist($newClient);
                 $em->flush();
+
+                foreach($newClient->getPhone() as $phone) {
+                    $phone->setUser($newClient);
+                    $em->persist($phone);
+                    $em->flush();
+                }
+
             } catch (\Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('customer_new');

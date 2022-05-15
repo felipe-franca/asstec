@@ -47,7 +47,9 @@ class AddressType extends AbstractType
                 'attr'     => [
                     'autocomplete' => 'off',
                     'class'        => 'form-control',
-                    'placeholder'  => 'SP'
+                    'placeholder'  => 'SP',
+                    'maxlength'    => '2',
+                    'pattern'      => '[A-Za-z]{2}'
                 ]
             ])
             ->add('postal_code', TextType::class, [
@@ -56,8 +58,10 @@ class AddressType extends AbstractType
                 'attr' => [
                     'autocomplet' => 'off',
                     'class'       => 'form-control',
-                    'placeholder' => '12345089'
-                ]
+                    'placeholder' => '12345089',
+                    'maxlength'   => '8',
+                    'pattern'     => '[0-9]{8}'
+                ],
             ])
         ;
     }

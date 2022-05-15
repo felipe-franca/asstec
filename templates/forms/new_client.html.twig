@@ -10,5 +10,59 @@
         {{ form_start(form, {'action': path('customer_new'), 'method': 'POST'}) }}
 		{{ form_widget(form) }}
 		{{ form_end(form) }}
+		<button type="button" class="add_item_link btn font-white bold bg-green mt-2" data-collection-holder-class="phone">Adicionar Telefone</button>
 	</div>
 {% endblock content %}
+
+{% block custom_js %}
+<script type='text/javascript'>
+	setTimeout(() => {
+		document
+			.querySelectorAll('.add_item_link')
+			.forEach(btn => {
+				btn.addEventListener("click", addFormToCollection)
+			});
+	}, 500);
+
+	document
+		.querySelectorAll('#new_client_phone li')
+		.forEach((phone) => {
+			addTagFormDeleteLink(phone)
+		});
+
+	var addFormToCollection = (e) => {
+		const collectionHolder = document.querySelector('#new_client_phone');
+		const item = document.createElement('li');
+
+		if (isNaN(collectionHolder.dataset.index))
+			collectionHolder.dataset.index = Number(0);
+
+		item.innerHTML = collectionHolder
+			.dataset
+			.prototype
+			.replace(
+			/__name__/g,
+			collectionHolder.dataset.index
+			);
+
+		collectionHolder.appendChild(item);
+		addTagFormDeleteLink(item);
+
+		collectionHolder.dataset.index++;
+	};
+
+	var addTagFormDeleteLink = (item) => {
+		const removeFormButton = document.createElement('button');
+		removeFormButton.classList.add('btn-sm', 'btn-danger', 'mt-1');
+
+		removeFormButton.innerText = 'Remover';
+
+		item.append(removeFormButton);
+
+		removeFormButton.addEventListener('click', (e) => {
+			e.preventDefault();
+			item.remove();
+		});
+	}
+</script>
+{% endblock %}

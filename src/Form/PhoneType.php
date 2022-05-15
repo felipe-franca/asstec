@@ -14,8 +14,13 @@ class PhoneType extends AbstractType
     {
         $builder
             ->add('number', TextType::class, [
-                'label' => 'Telefone: ',
-                'attr'  => ['class' => 'form-control']
+                'label'    => 'Telefone: ',
+                'attr'     => [
+                    'class'     => 'form-control',
+                    'pattern'   => '[0-9]{10,}',
+                    'maxlength' => 15
+                ],
+                'required' => false,
             ])
         ;
     }
@@ -23,7 +28,7 @@ class PhoneType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Phone::class,
+            'data_class'         => Phone::class,
             'allow_extra_fields' => true,
         ]);
     }

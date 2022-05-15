@@ -37,9 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Address::class, cascade: ['persist', 'remove'], fetch: "EAGER")]
     private $address;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserPhone::class)]
-    private $userPhones;
-
     #[ORM\OneToMany(mappedBy: 'responsable', targetEntity: Tickets::class)]
     private $tickets;
 
@@ -49,11 +46,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 20)]
     private $occupation;
 
+    #[ORM\OneToMany(targetEntity:'Phone', mappedBy:'user', cascade: ['persist', 'remove'])]
+    private $phone;
+
     public function __construct()
     {
-        $this->userPhones = new ArrayCollection();
         $this->tickets = new ArrayCollection();
+        $this->phone   = new ArrayCollection();
     }
+
 
     public static $rolesList = [
         'Administrador' => self::ADMIN_OCCUPATION,
@@ -154,33 +155,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUserPhones(): Collection
-    {
-        return $this->userPhones;
-    }
-
-    public function addUserPhone(UserPhone $userPhone): self
-    {
-        if (!$this->userPhones->contains($userPhone)) {
-            $this->userPhones[] = $userPhone;
-            $userPhone->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserPhone(UserPhone $userPhone): self
-    {
-        if ($this->userPhones->removeElement($userPhone)) {
-            // set the owning side to null (unless already changed)
-            if ($userPhone->getUser() === $this) {
-                $userPhone->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getTickets(): Collection
     {
         return $this->tickets;
@@ -220,30 +194,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhonesListString()
-    {
-        return implode(' - ' , $this->userPhones->map(function (UserPhone $phone) {
-            return $phone->getPhone()->getNumber();
-        })->toArray());
-    }
-
-    /**
-     * Get the value of clientTickets
-     */
     public function getClientTickets()
     {
         return $this->clientTickets;
     }
 
-    /**
-     * Set the value of clientTickets
-     *
-     * @return  self
-     */
     public function setClientTickets($clientTickets)
     {
         $this->clientTickets = $clientTickets;
 
         return $this;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getPhonesListString()
+    {
+        return implode(', ' , $this->getPhone()->map(function (Phone $phone) {
+            return $phone->getNumber();
+        })->toArray());
     }
 }
