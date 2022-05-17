@@ -48,7 +48,7 @@ class ClientController extends DefaultController
                     $newClient,
                     'help@tech'
                 );
-                
+
                 $newClient->setOccupation(User::CLIENT_OCCUPATION);
                 $newClient->setPassword($hashedPassword);
                 $newClient->setRoles(['ROLE_USER']);
@@ -96,6 +96,7 @@ class ClientController extends DefaultController
         $em = $this->doctrine->getManager();
 
         $form = $this->createForm(NewClientType::class, $user);
+        $oldPhones = $user->getPhone();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -104,6 +105,26 @@ class ClientController extends DefaultController
                 $editedClient = $form->getData();
 
                 $em->persist($editedClient);
+                $em->flush();
+
+                if(!$oldPhones->isEmpty()) {
+                    foreach($oldPhones as $phone) {
+                        if (false === $editedClient->getPhone()->contains($phone)) {
+                            $em->remove($phone);
+                        } else {
+                            foreach($editedClient->getPhone() as $phone) {
+                                $phone->setUser($editedClient);
+                                $em->persist($phone);
+                            }
+                        }
+                    }
+                } else {
+                    foreach($editedClient->getPhone() as $phone) {
+                        $phone->setUser($editedClient);
+                        $em->persist($phone);
+                    }
+                }
+
                 $em->flush();
             } catch (\Exception $e) {
                 $this->addFlash('warning', $e->getMessage());

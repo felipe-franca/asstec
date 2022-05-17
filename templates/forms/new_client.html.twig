@@ -33,6 +33,7 @@
 	var addFormToCollection = (e) => {
 		const collectionHolder = document.querySelector('#new_client_phone');
 		const item = document.createElement('li');
+		const list = document.createElement('ul');
 
 		if (isNaN(collectionHolder.dataset.index))
 			collectionHolder.dataset.index = Number(0);
@@ -45,7 +46,8 @@
 			collectionHolder.dataset.index
 			);
 
-		collectionHolder.appendChild(item);
+		list.appendChild(item);
+		collectionHolder.appendChild(list);
 		addTagFormDeleteLink(item);
 
 		collectionHolder.dataset.index++;

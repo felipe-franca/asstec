@@ -55,7 +55,7 @@ class UsersController extends DefaultController
 
                 $em->persist($newUser);
                 $em->flush();
-                
+
                 foreach($newUser->getPhone() as $phone) {
                     $phone->setUser($newUser);
                     $em->persist($phone);
@@ -93,20 +93,40 @@ class UsersController extends DefaultController
     public function editTech(Request $request, User $user): Response
     {
         $em = $this->doctrine->getManager();
+        $oldPhones = $user->getPhone();
 
         $form = $this->createForm(NewUserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $newUser = $form->getData();
-                $newUser->setRoles(
-                    $newUser->getOccupation() == 'ROLE_ADMIN' ? ['ROLE_ADMIN'] : ['ROLE_ANALYST']
+                $editedUser = $form->getData();
+                $editedUser->setRoles(
+                    $editedUser->getOccupation() == 'ROLE_ADMIN' ? ['ROLE_ADMIN'] : ['ROLE_ANALYST']
                 );
 
-                $em->persist($newUser);
+                $em->persist($editedUser);
                 $em->flush();
 
+                if(!$oldPhones->isEmpty()) {
+                    foreach($oldPhones as $phone) {
+                        if (false === $editedUser->getPhone()->contains($phone)) {
+                            $em->remove($phone);
+                        } else {
+                            foreach($editedUser->getPhone() as $phone) {
+                                $phone->setUser($editedUser);
+                                $em->persist($phone);
+                            }
+                        }
+                    }
+                } else {
+                    foreach($editedUser->getPhone() as $phone) {
+                        $phone->setUser($editedUser);
+                        $em->persist($phone);
+                    }
+                }
+
+                $em->flush();
             } catch(\Exception $e) {
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('app_techs_edit');

@@ -17,7 +17,7 @@ class Phone
     #[ORM\Column(type: 'string', length: 15)]
     private $number;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:'phone', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy:'phone')]
     private $user;
 
     public function getId(): ?int
