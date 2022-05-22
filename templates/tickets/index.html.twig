@@ -46,7 +46,7 @@
 					<tr>
 						<td>{{ ticket.getTicketNumber}}</td>
 						<td>{{ ticket.getClient.getUserName}}</td>
-						<td>{{ ticket.getCreatedAt|date('d/m/Y')}}</td>
+						<td>{{ ticket.getCreatedAt|date('d/m/Y H:i')}}</td>
 						{% if ticket.getStatus == 'finished' %}
 							<td>{{ ticket.getClosedAt|date('d/m/Y H:i') }}</td>
 						{% endif %}
