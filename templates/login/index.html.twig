@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Portal do Cliente
+{% block title %}
+	{% if isClient %}
+		Portal do Cliente
+	{% else %}
+		Portal do Admin
+	{% endif %}
 {% endblock %}
 
 {% block body %}
