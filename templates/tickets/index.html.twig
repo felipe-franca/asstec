@@ -50,7 +50,7 @@
 						{% if ticket.getStatus == 'finished' %}
 							<td>{{ ticket.getClosedAt|date('d/m/Y H:i') }}</td>
 						{% endif %}
-						<td>{{ ticket.getResponsable.getUsername}}</td>
+						<td>{{ ticket.getResponsable ? ticket.getResponsable.getUsername : '-'}}</td>
 						<td>
 							{% if ticket.getStatus != 'finished' %}
 								{% if ticket.getResponsable != app.user %}
